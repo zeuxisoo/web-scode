@@ -20,7 +20,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus status,
         WebRequest request
     ) {
-        String firstErrorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        String firstErrorMessage = ex.getBindingResult().getFieldError().getDefaultMessage();
 
         ErrorTransformer errorResponse = createErrorResponse(status, firstErrorMessage);
 
