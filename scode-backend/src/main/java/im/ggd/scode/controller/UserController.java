@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import im.ggd.scode.model.vo.UserVO;
+import im.ggd.scode.request.UserRequest;
 import im.ggd.scode.service.UserService;
 
 @RestController
@@ -17,12 +17,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create")
-    public String create(@RequestBody UserVO userVO) {
-        if (userService.isUsernameExists(userVO.getUsername())) {
+    public String create(@RequestBody UserRequest userRequest) {
+        if (userService.isUsernameExists(userRequest.getUsername())) {
             return "Username already exists";
         }
 
-        userService.store(userVO);
+        userService.store(userRequest);
 
         return "user created";
     }

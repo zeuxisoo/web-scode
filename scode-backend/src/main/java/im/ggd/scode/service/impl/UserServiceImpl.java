@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import im.ggd.scode.model.User;
-import im.ggd.scode.model.vo.UserVO;
 import im.ggd.scode.repository.UserRepository;
+import im.ggd.scode.request.UserRequest;
 import im.ggd.scode.service.UserService;
 
 @Service
@@ -29,11 +29,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User store(UserVO userVO) {
+    public User store(UserRequest request) {
         User user = new User();
-        user.setUsername(userVO.getUsername());
-        user.setPassword(userVO.getPassword());
-        user.setEmail(userVO.getEmail());
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setEmail(request.getEmail());
 
         return userRepository.save(user);
     }

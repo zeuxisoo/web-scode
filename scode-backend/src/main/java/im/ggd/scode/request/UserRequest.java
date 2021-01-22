@@ -1,11 +1,11 @@
-package im.ggd.scode.model.vo;
+package im.ggd.scode.request;
 
 import java.util.Date;
 
 import lombok.Data;
 
 @Data
-public class UserVO {
+public class UserRequest {
 
     private Long id;
 

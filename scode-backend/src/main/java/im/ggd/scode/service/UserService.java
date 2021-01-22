@@ -1,7 +1,7 @@
 package im.ggd.scode.service;
 
 import im.ggd.scode.model.User;
-import im.ggd.scode.model.vo.UserVO;
+import im.ggd.scode.request.UserRequest;
 
 public interface UserService {
 
@@ -9,6 +9,6 @@ public interface UserService {
 
     public User findByUsername(String username);
 
-    public User store(UserVO userVO);
+    public User store(UserRequest userRequest);
 
 }
