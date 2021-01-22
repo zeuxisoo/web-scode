@@ -9,16 +9,16 @@ import lombok.Data;
 @Data
 public class UserRequest {
 
-    @NotEmpty
-    @Size(min = 4)
+    @NotEmpty(message = "Please enter username")
+    @Size(min = 4, message = "Username must more than 4 letters")
     private String username;
 
-    @NotEmpty
-    @Size(min = 8)
+    @NotEmpty(message = "Please enter password")
+    @Size(min = 8, message = "Password must more than 8 letters")
     private String password;
 
-    @NotEmpty
-    @Email
+    @NotEmpty(message = "Please enter email")
+    @Email(message = "Email format incorrect")
     private String email;
 
 }
