@@ -6,7 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.hamcrest.Matchers.is;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -36,15 +39,11 @@ public class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private User user;
+    private User defaultUser;
 
     @BeforeEach
     public void setUp() {
-        user = new User();
-
-        user.setUsername("test");
-        user.setPassword("testtest");
-        user.setEmail("test@test.com");
+        defaultUser = createUser("test", "testtest", "test@test.com");
     }
 
     @Test
@@ -53,9 +52,9 @@ public class UserControllerTest {
         mvc.perform(
             post("/user/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user))
+                .content(objectMapper.writeValueAsString(defaultUser))
         )
-        .andDo(print())
+        // .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().string("user created"));
     }
@@ -63,14 +62,193 @@ public class UserControllerTest {
     @Test
     @Order(2)
     public void isUsernameExists() throws Exception {
+        // original username and password, new email
+        User user = createUser(
+            defaultUser.getUsername(),
+            defaultUser.getPassword(),
+            "test2@test2.com"
+        );
+
         mvc.perform(
             post("/user/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user))
         )
-        .andDo(print())
+        // .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.ok", is(false)))
+        .andExpect(jsonPath("$.message", is("Username already exists")));
+    }
+
+    @Test
+    @Order(3)
+    public void isEmailExists() throws Exception {
+        // new username, original password and email
+        User user = createUser(
+            "test3",
+            defaultUser.getPassword(),
+            defaultUser.getEmail()
+        );
+
+        mvc.perform(
+            post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        )
+        // .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.ok", is(false)))
+        .andExpect(jsonPath("$.message", is("Email already exists")));
+    }
+
+    @Test
+    @Order(4)
+    public void isUsernameEmpty() throws Exception {
+        User user = createUser(
+            "",
+            "fakePassword",
+            "fake@email.com"
+        );
+
+        mvc.perform(
+            post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        )
+        // .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.ok", is(false)))
+        .andExpect(jsonPath("$.message", is("Please enter username")));
+    }
+
+    @Test
+    @Order(5)
+    public void isPasswordEmpty() throws Exception {
+        User user = createUser(
+            "fakeUser",
+            "",
+            "fake@email.com"
+        );
+
+        mvc.perform(
+            post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        )
+        // .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.ok", is(false)))
+        .andExpect(jsonPath("$.message", is("Please enter password")));
+    }
+
+    @Test
+    @Order(6)
+    public void isEmailEmpty() throws Exception {
+        User user = createUser(
+            "fakeUser",
+            "fakePassword",
+            ""
+        );
+
+        mvc.perform(
+            post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        )
+        // .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.ok", is(false)))
+        .andExpect(jsonPath("$.message", is("Please enter email")));
+    }
+
+    @Test
+    @Order(7)
+    public void isUsernameLessThan4() throws Exception {
+        User user = createUser(
+            "u",
+            "fakePassword",
+            "fake@email.com"
+        );
+
+        mvc.perform(
+            post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        )
+        // .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.ok", is(false)))
+        .andExpect(jsonPath("$.message", is("Username must more than 4 letters")));
+    }
+
+    @Test
+    @Order(8)
+    public void isPasswordLessThan8() throws Exception {
+        User user = createUser(
+            "fakeUser",
+            "p",
+            "fake@email.com"
+        );
+
+        mvc.perform(
+            post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        )
+        // .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.ok", is(false)))
+        .andExpect(jsonPath("$.message", is("Password must more than 8 letters")));
+    }
+
+    @Test
+    @Order(9)
+    public void isInvalidEmail() throws Exception {
+        User user = createUser(
+            "fakeUsername",
+            "fakePassword",
+            "e"
+        );
+
+        mvc.perform(
+            post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        )
+        // .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.ok", is(false)))
+        .andExpect(jsonPath("$.message", is("Email format incorrect")));
+    }
+
+    @Test
+    @Order(10)
+    public void createSecondUser() throws Exception {
+        User user = createUser(
+            "test4",
+            "testtest",
+            "test4@test4.com"
+        );
+
+        mvc.perform(
+            post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        )
+        // .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(content().string("Username already exists"));
+        .andExpect(content().string("user created"));
+    }
+
+    // Helper
+    private User createUser(String username, String password, String email) {
+        User user = new User();
+
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+
+        return user;
     }
 
 }
