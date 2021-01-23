@@ -18,7 +18,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUsernameExists(String username) {
-        User user = userRepository.findByUsername(username);
+        User user = this.findByUsername(username);
+
+        return user != null;
+    }
+
+    @Override
+    public boolean isEmailExists(String email) {
+        User user = this.findByEmail(email);
 
         return user != null;
     }
@@ -26,6 +33,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override

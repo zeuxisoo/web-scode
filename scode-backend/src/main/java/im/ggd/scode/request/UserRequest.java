@@ -3,6 +3,7 @@ package im.ggd.scode.request;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import im.ggd.scode.validator.uniq.UniqEmail;
 import im.ggd.scode.validator.uniq.UniqUsername;
 
 import javax.validation.constraints.Email;
@@ -23,6 +24,7 @@ public class UserRequest {
 
     @NotEmpty(message = "Please enter email")
     @Email(message = "Email format incorrect")
+    @UniqEmail(message = "Email already exists")
     private String email;
 
 }

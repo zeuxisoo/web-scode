@@ -7,7 +7,11 @@ public interface UserService {
 
     public boolean isUsernameExists(String username);
 
+    public boolean isEmailExists(String email);
+
     public User findByUsername(String username);
+
+    public User findByEmail(String email);
 
     public User store(UserRequest userRequest);
 
