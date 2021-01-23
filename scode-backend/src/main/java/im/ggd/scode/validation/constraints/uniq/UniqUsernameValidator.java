@@ -1,4 +1,4 @@
-package im.ggd.scode.validator.uniq;
+package im.ggd.scode.validation.constraints.uniq;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -3,8 +3,11 @@ package im.ggd.scode.dto.request;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import im.ggd.scode.validator.uniq.UniqEmail;
-import im.ggd.scode.validator.uniq.UniqUsername;
+import im.ggd.scode.validation.constraints.uniq.UniqEmail;
+import im.ggd.scode.validation.constraints.uniq.UniqUsername;
+import im.ggd.scode.validation.group.EmptyGroup;
+import im.ggd.scode.validation.group.ExistsGroup;
+import im.ggd.scode.validation.group.LengthGroup;
 
 import javax.validation.constraints.Email;
 
@@ -13,18 +16,18 @@ import lombok.Data;
 @Data
 public class UserRequest {
 
-    @NotEmpty(message = "Please enter username")
-    @Size(min = 4, message = "Username must more than 4 letters")
-    @UniqUsername(message = "Username already exists")
+    @NotEmpty(message = "Please enter username", groups = EmptyGroup.class)
+    @Size(min = 4, message = "Username must more than 4 letters", groups = LengthGroup.class)
+    @UniqUsername(message = "Username already exists", groups = ExistsGroup.class)
     private String username;
 
-    @NotEmpty(message = "Please enter password")
-    @Size(min = 8, message = "Password must more than 8 letters")
+    @NotEmpty(message = "Please enter password", groups = EmptyGroup.class)
+    @Size(min = 8, message = "Password must more than 8 letters", groups = LengthGroup.class)
     private String password;
 
-    @NotEmpty(message = "Please enter email")
-    @Email(message = "Email format incorrect")
-    @UniqEmail(message = "Email already exists")
+    @NotEmpty(message = "Please enter email", groups = EmptyGroup.class)
+    @Email(message = "Email format incorrect", groups = LengthGroup.class)
+    @UniqEmail(message = "Email already exists", groups = ExistsGroup.class)
     private String email;
 
 }
