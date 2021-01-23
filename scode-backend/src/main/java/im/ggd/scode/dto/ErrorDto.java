@@ -1,9 +1,9 @@
-package im.ggd.scode.transformer;
+package im.ggd.scode.dto;
 
 import lombok.Data;
 
 @Data
-public class ErrorTransformer {
+public class ErrorDto {
 
     private final boolean ok;
 
