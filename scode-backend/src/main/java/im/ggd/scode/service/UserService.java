@@ -1,7 +1,7 @@
 package im.ggd.scode.service;
 
 import im.ggd.scode.model.User;
-import im.ggd.scode.request.UserRequest;
+import im.ggd.scode.dto.request.UserRequest;
 
 public interface UserService {
 

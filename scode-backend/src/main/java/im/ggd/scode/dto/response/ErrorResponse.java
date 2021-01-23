@@ -1,9 +1,9 @@
-package im.ggd.scode.dto;
+package im.ggd.scode.dto.response;
 
 import lombok.Data;
 
 @Data
-public class ErrorDto {
+public class ErrorResponse {
 
     private final boolean ok;
 

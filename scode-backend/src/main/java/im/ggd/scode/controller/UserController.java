@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import im.ggd.scode.request.UserRequest;
+import im.ggd.scode.dto.request.UserRequest;
 import im.ggd.scode.service.UserService;
 
 @RestController

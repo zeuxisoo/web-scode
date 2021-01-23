@@ -1,4 +1,4 @@
-package im.ggd.scode.request;
+package im.ggd.scode.dto.request;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;

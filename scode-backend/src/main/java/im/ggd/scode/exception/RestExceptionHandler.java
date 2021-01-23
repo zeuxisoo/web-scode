@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import im.ggd.scode.dto.ErrorDto;
+import im.ggd.scode.dto.response.ErrorResponse;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -22,16 +22,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     ) {
         String firstErrorMessage = ex.getBindingResult().getFieldError().getDefaultMessage();
 
-        ErrorDto errorResponse = createErrorResponse(status, firstErrorMessage);
+        ErrorResponse errorResponse = createErrorResponse(status, firstErrorMessage);
 
         return new ResponseEntity<Object>(errorResponse, status);
     }
 
     //
-    protected ErrorDto createErrorResponse(HttpStatus status, String message) {
+    protected ErrorResponse createErrorResponse(HttpStatus status, String message) {
         boolean isOK = status.value() == 200;
 
-        return new ErrorDto(isOK, message);
+        return new ErrorResponse(isOK, message);
     }
 
 }

@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import im.ggd.scode.model.User;
 import im.ggd.scode.repository.UserRepository;
-import im.ggd.scode.request.UserRequest;
+import im.ggd.scode.dto.request.UserRequest;
 import im.ggd.scode.service.UserService;
 
 @Service
