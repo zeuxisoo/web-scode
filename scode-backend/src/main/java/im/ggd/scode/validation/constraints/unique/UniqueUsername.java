@@ -1,4 +1,4 @@
-package im.ggd.scode.validation.constraints.uniq;
+package im.ggd.scode.validation.constraints.unique;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,12 +8,12 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Constraint(validatedBy = UniqEmailValidator.class)
+@Constraint(validatedBy = UniqueUsernameValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD })
-public @interface UniqEmail {
+public @interface UniqueUsername {
 
-    public String message() default "The email already exists";
+    public String message() default "The username already exists";
 
     public Class<?>[] groups() default {};
 
