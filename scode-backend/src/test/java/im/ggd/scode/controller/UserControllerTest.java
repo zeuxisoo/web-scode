@@ -49,14 +49,7 @@ public class UserControllerTest {
     @Test
     @Order(1)
     public void createUser() throws Exception {
-        mvc.perform(
-            post("/user/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(defaultUser))
-        )
-        // .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(content().string("user created"));
+        checkOkMessage(defaultUser, "user created");
     }
 
     @Test
@@ -69,15 +62,7 @@ public class UserControllerTest {
             "test2@test2.com"
         );
 
-        mvc.perform(
-            post("/user/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user))
-        )
-        // .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.ok", is(false)))
-        .andExpect(jsonPath("$.message", is("Username already exists")));
+        checkErrorMessage(user, "Username already exists");
     }
 
     @Test
@@ -90,15 +75,7 @@ public class UserControllerTest {
             defaultUser.getEmail()
         );
 
-        mvc.perform(
-            post("/user/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user))
-        )
-        // .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.ok", is(false)))
-        .andExpect(jsonPath("$.message", is("Email already exists")));
+        checkErrorMessage(user, "Email already exists");
     }
 
     @Test
@@ -110,15 +87,7 @@ public class UserControllerTest {
             "fake@email.com"
         );
 
-        mvc.perform(
-            post("/user/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user))
-        )
-        // .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.ok", is(false)))
-        .andExpect(jsonPath("$.message", is("Please enter username")));
+        checkErrorMessage(user, "Please enter username");
     }
 
     @Test
@@ -130,15 +99,7 @@ public class UserControllerTest {
             "fake@email.com"
         );
 
-        mvc.perform(
-            post("/user/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user))
-        )
-        // .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.ok", is(false)))
-        .andExpect(jsonPath("$.message", is("Please enter password")));
+        checkErrorMessage(user, "Please enter password");
     }
 
     @Test
@@ -150,15 +111,7 @@ public class UserControllerTest {
             ""
         );
 
-        mvc.perform(
-            post("/user/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user))
-        )
-        // .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.ok", is(false)))
-        .andExpect(jsonPath("$.message", is("Please enter email")));
+        checkErrorMessage(user, "Please enter email");
     }
 
     @Test
@@ -170,15 +123,7 @@ public class UserControllerTest {
             "fake@email.com"
         );
 
-        mvc.perform(
-            post("/user/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user))
-        )
-        // .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.ok", is(false)))
-        .andExpect(jsonPath("$.message", is("Username must more than 4 letters")));
+        checkErrorMessage(user, "Username must more than 4 letters");
     }
 
     @Test
@@ -190,15 +135,7 @@ public class UserControllerTest {
             "fake@email.com"
         );
 
-        mvc.perform(
-            post("/user/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user))
-        )
-        // .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.ok", is(false)))
-        .andExpect(jsonPath("$.message", is("Password must more than 8 letters")));
+        checkErrorMessage(user, "Password must more than 8 letters");
     }
 
     @Test
@@ -210,15 +147,7 @@ public class UserControllerTest {
             "e"
         );
 
-        mvc.perform(
-            post("/user/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user))
-        )
-        // .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.ok", is(false)))
-        .andExpect(jsonPath("$.message", is("Email format incorrect")));
+        checkErrorMessage(user, "Email format incorrect");
     }
 
     @Test
@@ -230,14 +159,7 @@ public class UserControllerTest {
             "test4@test4.com"
         );
 
-        mvc.perform(
-            post("/user/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user))
-        )
-        // .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(content().string("user created"));
+        checkOkMessage(user, "user created");
     }
 
     // Helper
@@ -249,6 +171,29 @@ public class UserControllerTest {
         user.setEmail(email);
 
         return user;
+    }
+
+    private void checkOkMessage(User user, String message) throws Exception {
+        mvc.perform(
+            post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        )
+        // .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().string(message));
+    }
+
+    private void checkErrorMessage(User user, String message) throws Exception {
+        mvc.perform(
+            post("/user/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        )
+        // .andDo(print())
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.ok", is(false)))
+        .andExpect(jsonPath("$.message", is(message)));
     }
 
 }
