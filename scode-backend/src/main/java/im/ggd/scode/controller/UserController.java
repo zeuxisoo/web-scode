@@ -20,10 +20,6 @@ public class UserController {
 
     @PostMapping("/create")
     public String create(@Valid @RequestBody UserRequest userRequest) {
-        if (userService.isUsernameExists(userRequest.getUsername())) {
-            return "Username already exists";
-        }
-
         userService.store(userRequest);
 
         return "user created";

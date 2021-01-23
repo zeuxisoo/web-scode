@@ -2,6 +2,9 @@ package im.ggd.scode.request;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import im.ggd.scode.validator.uniq.UniqUsername;
+
 import javax.validation.constraints.Email;
 
 import lombok.Data;
@@ -11,6 +14,7 @@ public class UserRequest {
 
     @NotEmpty(message = "Please enter username")
     @Size(min = 4, message = "Username must more than 4 letters")
+    @UniqUsername(message = "Username already exists")
     private String username;
 
     @NotEmpty(message = "Please enter password")
