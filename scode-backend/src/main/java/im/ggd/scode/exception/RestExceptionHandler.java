@@ -1,9 +1,9 @@
 package im.ggd.scode.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import im.ggd.scode.dto.response.ErrorResponse;
@@ -11,22 +11,19 @@ import im.ggd.scode.dto.response.ErrorResponse;
 @RestControllerAdvice
 public class RestExceptionHandler {
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ MethodArgumentNotValidException.class })
-    public ResponseEntity<Object> methodArgumentNotValid(MethodArgumentNotValidException e) {
+    public ErrorResponse methodArgumentNotValid(MethodArgumentNotValidException e) {
         String firstErrorMessage = e.getBindingResult().getFieldError().getDefaultMessage();
 
-        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponse errorResponse = createErrorResponse(false, firstErrorMessage);
 
-        ErrorResponse errorResponse = createErrorResponse(status, firstErrorMessage);
-
-        return new ResponseEntity<Object>(errorResponse, status);
+        return errorResponse;
     }
 
     //
-    protected ErrorResponse createErrorResponse(HttpStatus status, String message) {
-        boolean isOK = status.value() == 200;
-
-        return new ErrorResponse(isOK, message);
+    protected ErrorResponse createErrorResponse(boolean status, String message) {
+        return new ErrorResponse(status, message);
     }
 
 }
