@@ -1,7 +1,7 @@
 package im.ggd.scode.service;
 
 import im.ggd.scode.model.User;
-import im.ggd.scode.dto.request.UserRequest;
+import im.ggd.scode.dto.request.CreateUserRequest;
 
 public interface UserService {
 
@@ -13,6 +13,6 @@ public interface UserService {
 
     public User findByEmail(String email);
 
-    public User store(UserRequest userRequest);
+    public User store(CreateUserRequest userRequest);
 
 }

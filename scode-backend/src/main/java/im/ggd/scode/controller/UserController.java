@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import im.ggd.scode.dto.request.UserRequest;
+import im.ggd.scode.dto.request.CreateUserRequest;
 import im.ggd.scode.service.UserService;
 import im.ggd.scode.validation.group.order.BasicOrder;
 
@@ -19,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create")
-    public String create(@RequestBody @Validated({ BasicOrder.class }) UserRequest userRequest) {
+    public String create(@RequestBody @Validated({ BasicOrder.class }) CreateUserRequest userRequest) {
         userService.store(userRequest);
 
         return "user created";

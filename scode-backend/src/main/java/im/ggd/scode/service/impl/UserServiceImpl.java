@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import im.ggd.scode.model.User;
 import im.ggd.scode.repository.UserRepository;
-import im.ggd.scode.dto.request.UserRequest;
+import im.ggd.scode.dto.request.CreateUserRequest;
 import im.ggd.scode.service.UserService;
 
 @Service
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User store(UserRequest request) {
+    public User store(CreateUserRequest request) {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());
