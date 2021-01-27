@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,10 +27,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Cannot not found user by " + username);
         }
 
-        return org.springframework.security.core.userdetails.User
+        return User
                 .withUsername(username)
                 .password(user.getPassword())
-                // .authorities(new SimpleGrantedAuthority("ADMIN"))
                 .authorities(new ArrayList<SimpleGrantedAuthority>() {{
                     new SimpleGrantedAuthority("ADMIN");
                     new SimpleGrantedAuthority("USER");
