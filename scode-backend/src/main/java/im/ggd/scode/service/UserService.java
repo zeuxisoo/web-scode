@@ -1,6 +1,6 @@
 package im.ggd.scode.service;
 
-import im.ggd.scode.model.User;
+import im.ggd.scode.model.UserModel;
 import im.ggd.scode.dto.request.CreateUserRequest;
 
 public interface UserService {
@@ -9,10 +9,10 @@ public interface UserService {
 
     public boolean isEmailExists(String email);
 
-    public User findByUsername(String username);
+    public UserModel findByUsername(String username);
 
-    public User findByEmail(String email);
+    public UserModel findByEmail(String email);
 
-    public User store(CreateUserRequest userRequest);
+    public UserModel store(CreateUserRequest userRequest);
 
 }

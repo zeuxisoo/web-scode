@@ -20,7 +20,7 @@ import lombok.Data;
 @Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class UserModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

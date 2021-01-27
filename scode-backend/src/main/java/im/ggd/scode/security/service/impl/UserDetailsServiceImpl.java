@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import im.ggd.scode.model.User;
+import im.ggd.scode.model.UserModel;
 import im.ggd.scode.repository.UserRepository;
 
 @Service
@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        UserModel user = userRepository.findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("Cannot not found user by " + username);
