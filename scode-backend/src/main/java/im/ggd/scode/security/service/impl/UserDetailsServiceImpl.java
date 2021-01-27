@@ -1,6 +1,7 @@
 package im.ggd.scode.security.service.impl;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,13 +28,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Cannot not found user by " + username);
         }
 
+        List<SimpleGrantedAuthority> authorities = Arrays.asList(
+            new SimpleGrantedAuthority("ADMIN"),
+            new SimpleGrantedAuthority("USER")
+        );
+
         return User
                 .withUsername(username)
                 .password(user.getPassword())
-                .authorities(new ArrayList<SimpleGrantedAuthority>() {{
-                    new SimpleGrantedAuthority("ADMIN");
-                    new SimpleGrantedAuthority("USER");
-                }})
+                .authorities(authorities)
                 .accountExpired(false)
                 .accountLocked(false)
                 .credentialsExpired(false)
