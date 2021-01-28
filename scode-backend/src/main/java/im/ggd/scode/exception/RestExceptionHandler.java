@@ -1,6 +1,7 @@
 package im.ggd.scode.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,7 +14,7 @@ public class RestExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ MethodArgumentNotValidException.class })
-    public ErrorResponse methodArgumentNotValid(MethodArgumentNotValidException e) {
+    public ErrorResponse handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
         String firstErrorMessage = e.getBindingResult().getFieldError().getDefaultMessage();
 
         ErrorResponse errorResponse = createErrorResponse(false, firstErrorMessage);
@@ -21,9 +22,15 @@ public class RestExceptionHandler {
         return errorResponse;
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ HttpMessageNotReadableException.class })
+    public ErrorResponse handleHttpMessageNotReadable(HttpMessageNotReadableException e) {
+        return createErrorResponse(false, "No content found in the request body");
+    }
+
     //
-    protected ErrorResponse createErrorResponse(boolean status, String message) {
-        return new ErrorResponse(status, message);
+    protected ErrorResponse createErrorResponse(boolean isOK, String message) {
+        return new ErrorResponse(isOK, message);
     }
 
 }
