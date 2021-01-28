@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import im.ggd.scode.dto.request.CreateUserRequest;
+import im.ggd.scode.dto.request.SignInUserRequest;
 import im.ggd.scode.service.UserService;
 import im.ggd.scode.validation.group.order.BasicOrder;
 
@@ -23,6 +24,11 @@ public class UserController {
         userService.store(userRequest);
 
         return "user created";
+    }
+
+    @PostMapping("/signin")
+    public String signIn(@RequestBody @Validated({ BasicOrder.class }) SignInUserRequest signInRequest) {
+        return "user signed in";
     }
 
 }
