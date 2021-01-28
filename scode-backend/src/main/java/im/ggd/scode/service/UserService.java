@@ -2,6 +2,7 @@ package im.ggd.scode.service;
 
 import im.ggd.scode.model.UserModel;
 import im.ggd.scode.dto.request.CreateUserRequest;
+import im.ggd.scode.dto.request.SignInUserRequest;
 
 public interface UserService {
 
@@ -13,6 +14,8 @@ public interface UserService {
 
     public UserModel findByEmail(String email);
 
-    public UserModel store(CreateUserRequest userRequest);
+    public UserModel store(CreateUserRequest createUserRequest);
+
+    public UserModel signIn(SignInUserRequest signInUserRequest);
 
 }

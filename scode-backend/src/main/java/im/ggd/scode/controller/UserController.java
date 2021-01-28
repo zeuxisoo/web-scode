@@ -20,14 +20,16 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create")
-    public String create(@RequestBody @Validated({ BasicOrder.class }) CreateUserRequest userRequest) {
-        userService.store(userRequest);
+    public String create(@RequestBody @Validated({ BasicOrder.class }) CreateUserRequest request) {
+        userService.store(request);
 
         return "user created";
     }
 
     @PostMapping("/signin")
-    public String signIn(@RequestBody @Validated({ BasicOrder.class }) SignInUserRequest signInRequest) {
+    public String signIn(@RequestBody @Validated({ BasicOrder.class }) SignInUserRequest request) {
+        System.out.println(userService.signIn(request));
+
         return "user signed in";
     }
 
