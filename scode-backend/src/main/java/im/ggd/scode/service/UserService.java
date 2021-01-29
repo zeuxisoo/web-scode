@@ -1,6 +1,7 @@
 package im.ggd.scode.service;
 
 import im.ggd.scode.model.UserModel;
+import im.ggd.scode.security.model.JwtTokenModel;
 import im.ggd.scode.dto.request.CreateUserRequest;
 import im.ggd.scode.dto.request.SignInUserRequest;
 
@@ -16,6 +17,6 @@ public interface UserService {
 
     public UserModel store(CreateUserRequest createUserRequest);
 
-    public UserModel signIn(SignInUserRequest signInUserRequest);
+    public JwtTokenModel signIn(SignInUserRequest signInUserRequest);
 
 }

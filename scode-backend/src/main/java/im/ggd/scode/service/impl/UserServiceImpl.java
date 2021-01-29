@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import im.ggd.scode.model.UserModel;
 import im.ggd.scode.repository.UserRepository;
+import im.ggd.scode.security.component.JwtAuthentication;
+import im.ggd.scode.security.model.JwtTokenModel;
 import im.ggd.scode.dto.request.CreateUserRequest;
 import im.ggd.scode.dto.request.SignInUserRequest;
 import im.ggd.scode.service.UserService;
@@ -21,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JwtAuthentication jwtAuthentication;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -65,22 +70,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel signIn(SignInUserRequest request) {
+    public JwtTokenModel signIn(SignInUserRequest request) {
         String username = request.getUsername();
         String password = request.getPassword();
 
+        // Authenticate username and password
+        // - Throw AuthenticationException when invalid username or password
         Authentication authentication;
 
-        // Throw AuthenticationException when invalid username or password
         authentication = new UsernamePasswordAuthenticationToken(username, password);
         authentication = authenticationManager.authenticate(authentication);
 
+        // Get authenticated user details
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        UserModel user = new UserModel();
-        user.setUsername(userDetails.getUsername());
+        // Generate jwt token
+        JwtTokenModel jwtTokenModel = jwtAuthentication.createToken(userDetails.getUsername());
 
-        return user;
+        return jwtTokenModel;
     }
 
 }
