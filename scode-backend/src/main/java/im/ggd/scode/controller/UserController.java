@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 import im.ggd.scode.dto.request.CreateUserRequest;
 import im.ggd.scode.dto.request.SignInUserRequest;
 import im.ggd.scode.dto.response.ItemResponse;
+import im.ggd.scode.dto.transformer.JwtTokenTransformer;
 import im.ggd.scode.dto.transformer.UserTransformer;
 import im.ggd.scode.model.UserModel;
+import im.ggd.scode.security.model.JwtTokenModel;
 import im.ggd.scode.service.UserService;
 import im.ggd.scode.validation.group.order.BasicOrder;
 
@@ -30,10 +32,10 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public String signIn(@RequestBody @Validated({ BasicOrder.class }) SignInUserRequest request) {
-        System.out.println(userService.signIn(request));
+    public ItemResponse signIn(@RequestBody @Validated({ BasicOrder.class }) SignInUserRequest request) {
+        JwtTokenModel token = userService.signIn(request);
 
-        return "user signed in";
+        return new ItemResponse(token, new JwtTokenTransformer());
     }
 
 }
