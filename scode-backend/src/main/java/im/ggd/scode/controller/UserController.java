@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import im.ggd.scode.dto.request.CreateUserRequest;
 import im.ggd.scode.dto.request.SignInUserRequest;
+import im.ggd.scode.dto.response.ItemResponse;
+import im.ggd.scode.dto.transformer.UserTransformer;
+import im.ggd.scode.model.UserModel;
 import im.ggd.scode.service.UserService;
 import im.ggd.scode.validation.group.order.BasicOrder;
 
@@ -20,10 +23,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create")
-    public String create(@RequestBody @Validated({ BasicOrder.class }) CreateUserRequest request) {
-        userService.store(request);
+    public ItemResponse create(@RequestBody @Validated({ BasicOrder.class }) CreateUserRequest request) {
+        UserModel user = userService.store(request);
 
-        return "user created";
+        return new ItemResponse(user, new UserTransformer());
     }
 
     @PostMapping("/signin")
