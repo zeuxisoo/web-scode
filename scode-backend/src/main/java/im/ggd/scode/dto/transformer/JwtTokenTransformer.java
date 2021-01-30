@@ -13,6 +13,7 @@ public class JwtTokenTransformer implements ITransformer {
         JwtTokenModel tokenModel = (JwtTokenModel ) object;
 
         Map<String, Object> user = Stream.of(new Object[][] {
+            { "username",   tokenModel.getUsername() },
             { "token",      tokenModel.getToken() },
             { "expired_at", tokenModel.getExpiredAt() },
         }).collect(

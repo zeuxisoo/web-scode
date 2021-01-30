@@ -40,7 +40,7 @@ public class JwtAuthentication {
             .signWith(Keys.hmacShaKeyFor(secretKey), SignatureAlgorithm.HS256)
             .compact();
 
-        return new JwtTokenModel(token, calendar.getTimeInMillis());
+        return new JwtTokenModel(username, token, calendar.getTimeInMillis());
     }
 
 }
