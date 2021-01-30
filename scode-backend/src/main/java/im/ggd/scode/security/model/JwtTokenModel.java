@@ -7,6 +7,6 @@ public class JwtTokenModel {
 
     private final String token;
 
-    private final long expired_at;
+    private final long expiredAt;
 
 }
