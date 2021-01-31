@@ -12,7 +12,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import im.ggd.scode.security.component.JwtAuthenticationFilter;
-import im.ggd.scode.security.exception.ResetAuthenticationEntryPointException;
+import im.ggd.scode.security.exception.ResetAuthenticationEntryPointHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
 
         http.exceptionHandling()
-            .authenticationEntryPoint(authenticationEntryPointException())
+            .authenticationEntryPoint(authenticationEntryPointHandler())
             .accessDeniedPage("/login");
     }
 
@@ -55,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationEntryPoint authenticationEntryPointException() {
-        return new ResetAuthenticationEntryPointException();
+    public AuthenticationEntryPoint authenticationEntryPointHandler() {
+        return new ResetAuthenticationEntryPointHandler();
     }
 
 }

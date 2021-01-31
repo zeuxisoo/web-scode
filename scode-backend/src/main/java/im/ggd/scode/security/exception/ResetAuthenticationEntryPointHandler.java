@@ -13,7 +13,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 import im.ggd.scode.dto.response.ErrorResponse;
 
-public class ResetAuthenticationEntryPointException implements AuthenticationEntryPoint {
+public class ResetAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
 
     @Override
     public void commence(
@@ -31,7 +31,6 @@ public class ResetAuthenticationEntryPointException implements AuthenticationEnt
                 .write(
                     new ObjectMapper().writeValueAsString(errorResponse)
                 );
-
     }
 
 }
