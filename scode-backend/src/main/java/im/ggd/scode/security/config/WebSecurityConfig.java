@@ -8,9 +8,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import im.ggd.scode.security.component.JwtAuthenticationFilter;
+import im.ggd.scode.security.exception.WebSecurityAuthenticationEntryPointException;
 
 @Configuration
 @EnableWebSecurity
@@ -41,13 +43,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
                 .permitAll();
 
-        http.exceptionHandling().accessDeniedPage("/login");
+        http.exceptionHandling()
+            .authenticationEntryPoint(authenticationEntryPointException())
+            .accessDeniedPage("/login");
     }
 
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPointException() {
+        return new WebSecurityAuthenticationEntryPointException();
     }
 
 }
