@@ -13,7 +13,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 import im.ggd.scode.dto.response.ErrorResponse;
 
-public class WebSecurityAuthenticationEntryPointException implements AuthenticationEntryPoint {
+public class ResetAuthenticationEntryPointException implements AuthenticationEntryPoint {
 
     @Override
     public void commence(
