@@ -43,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
                 .permitAll();
 
-        http.exceptionHandling()
+        http
+            .exceptionHandling()
             .authenticationEntryPoint(authenticationEntryPointHandler())
             .accessDeniedPage("/login");
     }
