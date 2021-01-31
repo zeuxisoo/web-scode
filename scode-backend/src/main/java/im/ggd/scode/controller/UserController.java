@@ -2,6 +2,7 @@ package im.ggd.scode.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,11 @@ public class UserController {
         JwtTokenModel token = userService.signIn(request);
 
         return new ItemResponse(token, new JwtTokenTransformer());
+    }
+
+    @GetMapping("/me")
+    public String me() {
+        return "My page need signed in";
     }
 
 }

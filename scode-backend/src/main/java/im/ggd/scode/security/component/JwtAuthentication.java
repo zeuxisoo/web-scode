@@ -3,11 +3,21 @@ package im.ggd.scode.security.component;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import im.ggd.scode.security.model.JwtTokenModel;
@@ -18,6 +28,9 @@ public class JwtAuthentication {
     private byte[] secretKey = "this-is-a-hard-code-key-must-change-it".getBytes();
 
     private int expiredSecond = 60*60*24*7;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     public JwtTokenModel createToken(String username) {
         // Claims
@@ -41,6 +54,43 @@ public class JwtAuthentication {
             .compact();
 
         return new JwtTokenModel(username, token, calendar.getTimeInMillis());
+    }
+
+    public String getToken(HttpServletRequest request) {
+        String bearerHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        if (bearerHeader != null && bearerHeader.startsWith("Bearer")) {
+            return bearerHeader.replace("Bearer ", "");
+        }
+
+        return null;
+    }
+
+    public boolean verifyToken(String token) {
+        if (token == null) return false;
+
+        try {
+            Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+        }catch(JwtException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public Claims getClaims(String token) {
+        // Throw exception when token is expired or invalid in parse failed
+        JwtParser parser = Jwts.parserBuilder().setSigningKey(secretKey).build();
+        Claims claims = parser.parseClaimsJws(token).getBody();
+
+        return claims;
+    }
+
+    public Authentication getAuthentication(Claims claims) {
+        String username = claims.getSubject();
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
 }

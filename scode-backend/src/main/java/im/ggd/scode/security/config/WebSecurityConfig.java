@@ -1,15 +1,23 @@
 package im.ggd.scode.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import im.ggd.scode.security.component.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -17,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.headers().frameOptions().sameOrigin();
 
-        // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http
             .authorizeRequests()
@@ -26,9 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/signin").permitAll()
                 .anyRequest().authenticated()
                 .and()
-            .formLogin()
-                .permitAll()
-                .and()
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            // .formLogin()
+            //     .permitAll()
+            //     .and()
             .logout()
                 .permitAll();
 
