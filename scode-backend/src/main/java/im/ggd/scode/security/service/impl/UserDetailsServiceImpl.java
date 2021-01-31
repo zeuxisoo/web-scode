@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserModel user = userRepository.findByUsername(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException("Cannot not found user by " + username);
+            throw new UsernameNotFoundException("Cannot not found user by " + username + " in web security");
         }
 
         List<SimpleGrantedAuthority> authorities = Arrays.asList(
