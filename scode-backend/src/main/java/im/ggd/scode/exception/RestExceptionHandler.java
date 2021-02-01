@@ -3,6 +3,7 @@ package im.ggd.scode.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,6 +34,12 @@ public class RestExceptionHandler {
     @ExceptionHandler({ AuthenticationException.class })
     public ErrorResponse handleAuthenticationException(AuthenticationException e) {
         return createErrorResponse(false, "Invalid username / password");
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler({ UsernameNotFoundException.class })
+    public ErrorResponse handleUsernameNotFoundException(UsernameNotFoundException e) {
+        return createErrorResponse(false, "No user not found by username");
     }
 
     //
