@@ -1,4 +1,4 @@
-package im.ggd.scode.model;
+package im.ggd.scode.entity;
 
 import java.util.Date;
 
@@ -20,7 +20,7 @@ import lombok.Data;
 @Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
-public class UserModel {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -24,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import im.ggd.scode.ScodeApplication;
-import im.ggd.scode.model.UserModel;
+import im.ggd.scode.entity.UserEntity;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
@@ -38,7 +38,7 @@ public class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private UserModel defaultUser;
+    private UserEntity defaultUser;
 
     @BeforeEach
     public void setUp() {
@@ -55,7 +55,7 @@ public class UserControllerTest {
     @Order(2)
     public void isUsernameExists() throws Exception {
         // original username and password, new email
-        UserModel user = createUser(
+        UserEntity user = createUser(
             defaultUser.getUsername(),
             defaultUser.getPassword(),
             "test2@test2.com"
@@ -68,7 +68,7 @@ public class UserControllerTest {
     @Order(3)
     public void isEmailExists() throws Exception {
         // new username, original password and email
-        UserModel user = createUser(
+        UserEntity user = createUser(
             "test3",
             defaultUser.getPassword(),
             defaultUser.getEmail()
@@ -80,7 +80,7 @@ public class UserControllerTest {
     @Test
     @Order(4)
     public void isUsernameEmpty() throws Exception {
-        UserModel user = createUser(
+        UserEntity user = createUser(
             "",
             "fakePassword",
             "fake@email.com"
@@ -92,7 +92,7 @@ public class UserControllerTest {
     @Test
     @Order(5)
     public void isPasswordEmpty() throws Exception {
-        UserModel user = createUser(
+        UserEntity user = createUser(
             "fakeUser",
             "",
             "fake@email.com"
@@ -104,7 +104,7 @@ public class UserControllerTest {
     @Test
     @Order(6)
     public void isEmailEmpty() throws Exception {
-        UserModel user = createUser(
+        UserEntity user = createUser(
             "fakeUser",
             "fakePassword",
             ""
@@ -116,7 +116,7 @@ public class UserControllerTest {
     @Test
     @Order(7)
     public void isUsernameLessThan4() throws Exception {
-        UserModel user = createUser(
+        UserEntity user = createUser(
             "u",
             "fakePassword",
             "fake@email.com"
@@ -128,7 +128,7 @@ public class UserControllerTest {
     @Test
     @Order(8)
     public void isPasswordLessThan8() throws Exception {
-        UserModel user = createUser(
+        UserEntity user = createUser(
             "fakeUser",
             "p",
             "fake@email.com"
@@ -140,7 +140,7 @@ public class UserControllerTest {
     @Test
     @Order(9)
     public void isInvalidEmail() throws Exception {
-        UserModel user = createUser(
+        UserEntity user = createUser(
             "fakeUsername",
             "fakePassword",
             "e"
@@ -152,7 +152,7 @@ public class UserControllerTest {
     @Test
     @Order(10)
     public void createSecondUser() throws Exception {
-        UserModel user = createUser(
+        UserEntity user = createUser(
             "test4",
             "testtest",
             "test4@test4.com"
@@ -162,8 +162,8 @@ public class UserControllerTest {
     }
 
     // Helper
-    private UserModel createUser(String username, String password, String email) {
-        UserModel user = new UserModel();
+    private UserEntity createUser(String username, String password, String email) {
+        UserEntity user = new UserEntity();
 
         user.setUsername(username);
         user.setPassword(password);
@@ -172,7 +172,7 @@ public class UserControllerTest {
         return user;
     }
 
-    private void checkOkMessage(UserModel user, String message) throws Exception {
+    private void checkOkMessage(UserEntity user, String message) throws Exception {
         mvc.perform(
             post("/user/create")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -183,7 +183,7 @@ public class UserControllerTest {
         .andExpect(content().string(message));
     }
 
-    private void checkErrorMessage(UserModel user, String message) throws Exception {
+    private void checkErrorMessage(UserEntity user, String message) throws Exception {
         mvc.perform(
             post("/user/create")
                 .contentType(MediaType.APPLICATION_JSON)

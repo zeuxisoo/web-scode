@@ -2,12 +2,12 @@ package im.ggd.scode.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import im.ggd.scode.model.UserModel;
+import im.ggd.scode.entity.UserEntity;
 
-public interface UserRepository extends JpaRepository<UserModel, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    public UserModel findByUsername(String username);
+    public UserEntity findByUsername(String username);
 
-    public UserModel findByEmail(String email);
+    public UserEntity findByEmail(String email);
 
 }

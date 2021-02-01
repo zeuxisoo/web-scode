@@ -1,9 +1,9 @@
 package im.ggd.scode.service;
 
-import im.ggd.scode.model.UserModel;
 import im.ggd.scode.security.model.JwtTokenModel;
 import im.ggd.scode.dto.request.CreateUserRequest;
 import im.ggd.scode.dto.request.SignInUserRequest;
+import im.ggd.scode.entity.UserEntity;
 
 public interface UserService {
 
@@ -11,11 +11,11 @@ public interface UserService {
 
     public boolean isEmailExists(String email);
 
-    public UserModel findByUsername(String username);
+    public UserEntity findByUsername(String username);
 
-    public UserModel findByEmail(String email);
+    public UserEntity findByEmail(String email);
 
-    public UserModel store(CreateUserRequest createUserRequest);
+    public UserEntity store(CreateUserRequest createUserRequest);
 
     public JwtTokenModel signIn(SignInUserRequest signInUserRequest);
 

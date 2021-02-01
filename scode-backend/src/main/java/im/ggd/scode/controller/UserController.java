@@ -13,7 +13,7 @@ import im.ggd.scode.dto.request.SignInUserRequest;
 import im.ggd.scode.dto.response.ItemResponse;
 import im.ggd.scode.dto.transformer.JwtTokenTransformer;
 import im.ggd.scode.dto.transformer.UserTransformer;
-import im.ggd.scode.model.UserModel;
+import im.ggd.scode.entity.UserEntity;
 import im.ggd.scode.security.model.JwtTokenModel;
 import im.ggd.scode.service.UserService;
 import im.ggd.scode.validation.group.order.BasicOrder;
@@ -27,7 +27,7 @@ public class UserController {
 
     @PostMapping("/create")
     public ItemResponse create(@RequestBody @Validated({ BasicOrder.class }) CreateUserRequest request) {
-        UserModel user = userService.store(request);
+        UserEntity user = userService.store(request);
 
         return new ItemResponse(user, new UserTransformer());
     }

@@ -9,12 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import im.ggd.scode.model.UserModel;
 import im.ggd.scode.repository.UserRepository;
 import im.ggd.scode.security.component.JwtAuthentication;
 import im.ggd.scode.security.model.JwtTokenModel;
 import im.ggd.scode.dto.request.CreateUserRequest;
 import im.ggd.scode.dto.request.SignInUserRequest;
+import im.ggd.scode.entity.UserEntity;
 import im.ggd.scode.service.UserService;
 
 @Service
@@ -35,33 +35,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUsernameExists(String username) {
-        UserModel user = this.findByUsername(username);
+        UserEntity user = this.findByUsername(username);
 
         return user != null;
     }
 
     @Override
     public boolean isEmailExists(String email) {
-        UserModel user = this.findByEmail(email);
+        UserEntity user = this.findByEmail(email);
 
         return user != null;
     }
 
     @Override
-    public UserModel findByUsername(String username) {
+    public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
-    public UserModel findByEmail(String email) {
+    public UserEntity findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
-    public UserModel store(CreateUserRequest request) {
+    public UserEntity store(CreateUserRequest request) {
         String password = passwordEncoder.encode(request.getPassword());
 
-        UserModel user = new UserModel();
+        UserEntity user = new UserEntity();
         user.setUsername(request.getUsername());
         user.setPassword(password);
         user.setEmail(request.getEmail());
