@@ -1,4 +1,4 @@
-package im.ggd.scode.controller;
+package im.ggd.scode.controller.user;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.hamcrest.Matchers.is;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +29,7 @@ import im.ggd.scode.entity.UserEntity;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ScodeApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class UserControllerTest {
+public class CreateTest {
 
     @Autowired
     private MockMvc mvc;
@@ -180,7 +179,9 @@ public class UserControllerTest {
         )
         // .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(content().string(message));
+        .andExpect(jsonPath("$.data.username", is(user.getUsername())))
+        .andExpect(jsonPath("$.data.email", is(user.getEmail())))
+        .andExpect(jsonPath("$.data.created_at").isNotEmpty());
     }
 
     private void checkErrorMessage(UserEntity user, String message) throws Exception {
