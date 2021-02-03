@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import im.ggd.scode.dto.converter.JwtTokenConverter;
 import im.ggd.scode.dto.request.AuthSignInRequest;
 import im.ggd.scode.dto.response.ItemResponse;
-import im.ggd.scode.dto.transformer.JwtTokenTransformer;
 import im.ggd.scode.security.model.JwtTokenModel;
 import im.ggd.scode.service.AuthService;
 import im.ggd.scode.validation.group.order.BasicOrder;
@@ -28,7 +28,8 @@ public class AuthController {
     public ItemResponse signIn(@RequestBody @Validated({ BasicOrder.class }) AuthSignInRequest request) {
         JwtTokenModel token = authService.signIn(request);
 
-        return new ItemResponse(token, new JwtTokenTransformer());
+        // return new ItemResponse(token, new JwtTokenTransformer());
+        return new ItemResponse(token, new JwtTokenConverter());
     }
 
     @GetMapping("/refresh")
@@ -37,7 +38,8 @@ public class AuthController {
 
         JwtTokenModel token = authService.refresh(authorization);
 
-        return new ItemResponse(token, new JwtTokenTransformer());
+        // return new ItemResponse(token, new JwtTokenTransformer());
+        return new ItemResponse(token, new JwtTokenConverter());
     }
 
 }

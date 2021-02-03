@@ -2,7 +2,8 @@ package im.ggd.scode.dto.response;
 
 import java.util.Map;
 
-import im.ggd.scode.dto.transformer.ITransformer;
+import org.springframework.core.convert.converter.Converter;
+
 import lombok.Data;
 
 @Data
@@ -12,9 +13,9 @@ public class ItemResponse {
 
     private Map<String, Object> data;
 
-    public ItemResponse(Object data, ITransformer transformer) {
+    public ItemResponse(Object data, Converter<Object, Map<String, Object>> converter) {
         this.ok   = true;
-        this.data = transformer.transform(data);
+        this.data = converter.convert(data);
     }
 
 }

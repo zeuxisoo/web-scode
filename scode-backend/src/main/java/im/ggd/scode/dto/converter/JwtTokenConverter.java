@@ -1,16 +1,18 @@
-package im.ggd.scode.dto.transformer;
+package im.ggd.scode.dto.converter;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.core.convert.converter.Converter;
+
 import im.ggd.scode.security.model.JwtTokenModel;
 
-public class JwtTokenTransformer implements ITransformer {
+public class JwtTokenConverter implements Converter<Object, Map<String, Object>> {
 
     @Override
-    public Map<String, Object> transform(Object object) {
-        JwtTokenModel tokenModel = (JwtTokenModel ) object;
+    public Map<String, Object> convert(Object source) {
+        JwtTokenModel tokenModel = (JwtTokenModel ) source;
 
         Map<String, Object> user = Stream.of(new Object[][] {
             { "username",   tokenModel.getUsername() },
