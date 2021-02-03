@@ -6,7 +6,7 @@ import im.ggd.scode.validation.group.EmptyGroup;
 import lombok.Data;
 
 @Data
-public class SignInUserRequest {
+public class AuthSignInRequest {
 
     @NotEmpty(message = "Please enter username", groups = EmptyGroup.class)
     private String username;

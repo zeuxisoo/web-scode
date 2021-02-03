@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import im.ggd.scode.dto.request.SignInUserRequest;
+import im.ggd.scode.dto.request.AuthSignInRequest;
 import im.ggd.scode.dto.response.ItemResponse;
 import im.ggd.scode.dto.transformer.JwtTokenTransformer;
 import im.ggd.scode.security.model.JwtTokenModel;
-import im.ggd.scode.service.UserService;
+import im.ggd.scode.service.AuthService;
 import im.ggd.scode.validation.group.order.BasicOrder;
 
 @RestController
@@ -22,11 +22,11 @@ import im.ggd.scode.validation.group.order.BasicOrder;
 public class AuthController {
 
     @Autowired
-    UserService userService;
+    AuthService authService;
 
     @PostMapping("/signin")
-    public ItemResponse signIn(@RequestBody @Validated({ BasicOrder.class }) SignInUserRequest request) {
-        JwtTokenModel token = userService.signIn(request);
+    public ItemResponse signIn(@RequestBody @Validated({ BasicOrder.class }) AuthSignInRequest request) {
+        JwtTokenModel token = authService.signIn(request);
 
         return new ItemResponse(token, new JwtTokenTransformer());
     }
@@ -35,7 +35,7 @@ public class AuthController {
     public ItemResponse refresh(@RequestHeader HttpHeaders headers) {
         String authorization = headers.getFirst(HttpHeaders.AUTHORIZATION);
 
-        JwtTokenModel token = userService.refresh(authorization);
+        JwtTokenModel token = authService.refresh(authorization);
 
         return new ItemResponse(token, new JwtTokenTransformer());
     }
