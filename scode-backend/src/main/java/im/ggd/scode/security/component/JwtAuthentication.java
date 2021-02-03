@@ -29,6 +29,8 @@ public class JwtAuthentication {
 
     private int expiredSecond = 60*60*24*7;
 
+    private int refreshSecond = 60*60*24*7*2;
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -57,10 +59,14 @@ public class JwtAuthentication {
     }
 
     public String getToken(HttpServletRequest request) {
-        String bearerHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (bearerHeader != null && bearerHeader.startsWith("Bearer")) {
-            return bearerHeader.replace("Bearer ", "");
+        return getTokenFromAuthorization(authorization);
+    }
+
+    public String getTokenFromAuthorization(String authorization) {
+        if (authorization != null && authorization.startsWith("Bearer")) {
+            return authorization.replace("Bearer ", "");
         }
 
         return null;
@@ -91,6 +97,28 @@ public class JwtAuthentication {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    }
+
+    public JwtTokenModel refreshToken(String token) {
+        // Current date
+        Date now = new Date();
+
+        // Refresh at 7 * 2 days
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, refreshSecond);
+
+        // Change expiration date and issue date base on old claim
+        Claims claims = getClaims(token);
+        claims.setIssuedAt(now);
+        claims.setExpiration(calendar.getTime());
+
+        // Build refreshed token
+        String refreshToken = Jwts.builder()
+            .setClaims(claims)
+            .signWith(Keys.hmacShaKeyFor(secretKey), SignatureAlgorithm.HS256)
+            .compact();
+
+        return new JwtTokenModel(claims.getSubject(), refreshToken, calendar.getTimeInMillis());
     }
 
 }

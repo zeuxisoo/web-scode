@@ -90,4 +90,13 @@ public class UserServiceImpl implements UserService {
         return jwtTokenModel;
     }
 
+    @Override
+    public JwtTokenModel refresh(String authorization) {
+        String token = jwtAuthentication.getTokenFromAuthorization(authorization);
+
+        JwtTokenModel jwtTokenModel = jwtAuthentication.refreshToken(token);
+
+        return jwtTokenModel;
+    }
+
 }
