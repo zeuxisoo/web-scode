@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import im.ggd.scode.repository.UserRepository;
-import im.ggd.scode.dto.request.CreateUserRequest;
+import im.ggd.scode.dto.request.UserCreateRequest;
 import im.ggd.scode.entity.UserEntity;
 import im.ggd.scode.service.UserService;
 
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity store(CreateUserRequest request) {
+    public UserEntity store(UserCreateRequest request) {
         String password = passwordEncoder.encode(request.getPassword());
 
         UserEntity user = new UserEntity();

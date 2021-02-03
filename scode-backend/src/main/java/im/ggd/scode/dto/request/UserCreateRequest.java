@@ -14,7 +14,7 @@ import javax.validation.constraints.Email;
 import lombok.Data;
 
 @Data
-public class CreateUserRequest {
+public class UserCreateRequest {
 
     @NotEmpty(message = "Please enter username", groups = EmptyGroup.class)
     @Size(min = 4, message = "Username must more than 4 letters", groups = LengthGroup.class)
