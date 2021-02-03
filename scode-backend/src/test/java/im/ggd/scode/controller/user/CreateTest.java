@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import im.ggd.scode.ScodeApplication;
 import im.ggd.scode.entity.UserEntity;
+import im.ggd.scode.utils.UserUtils;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
@@ -41,7 +42,7 @@ public class CreateTest {
 
     @BeforeEach
     public void setUp() {
-        defaultUser = createUser("test", "testtest", "test@test.com");
+        defaultUser = UserUtils.createUser("test", "testtest", "test@test.com");
     }
 
     @Test
@@ -54,7 +55,7 @@ public class CreateTest {
     @Order(2)
     public void isUsernameExists() throws Exception {
         // original username and password, new email
-        UserEntity user = createUser(
+        UserEntity user = UserUtils.createUser(
             defaultUser.getUsername(),
             defaultUser.getPassword(),
             "test2@test2.com"
@@ -67,7 +68,7 @@ public class CreateTest {
     @Order(3)
     public void isEmailExists() throws Exception {
         // new username, original password and email
-        UserEntity user = createUser(
+        UserEntity user = UserUtils.createUser(
             "test3",
             defaultUser.getPassword(),
             defaultUser.getEmail()
@@ -79,7 +80,7 @@ public class CreateTest {
     @Test
     @Order(4)
     public void isUsernameEmpty() throws Exception {
-        UserEntity user = createUser(
+        UserEntity user = UserUtils.createUser(
             "",
             "fakePassword",
             "fake@email.com"
@@ -91,7 +92,7 @@ public class CreateTest {
     @Test
     @Order(5)
     public void isPasswordEmpty() throws Exception {
-        UserEntity user = createUser(
+        UserEntity user = UserUtils.createUser(
             "fakeUser",
             "",
             "fake@email.com"
@@ -103,7 +104,7 @@ public class CreateTest {
     @Test
     @Order(6)
     public void isEmailEmpty() throws Exception {
-        UserEntity user = createUser(
+        UserEntity user = UserUtils.createUser(
             "fakeUser",
             "fakePassword",
             ""
@@ -115,7 +116,7 @@ public class CreateTest {
     @Test
     @Order(7)
     public void isUsernameLessThan4() throws Exception {
-        UserEntity user = createUser(
+        UserEntity user = UserUtils.createUser(
             "u",
             "fakePassword",
             "fake@email.com"
@@ -127,7 +128,7 @@ public class CreateTest {
     @Test
     @Order(8)
     public void isPasswordLessThan8() throws Exception {
-        UserEntity user = createUser(
+        UserEntity user = UserUtils.createUser(
             "fakeUser",
             "p",
             "fake@email.com"
@@ -139,7 +140,7 @@ public class CreateTest {
     @Test
     @Order(9)
     public void isInvalidEmail() throws Exception {
-        UserEntity user = createUser(
+        UserEntity user = UserUtils.createUser(
             "fakeUsername",
             "fakePassword",
             "e"
@@ -151,7 +152,7 @@ public class CreateTest {
     @Test
     @Order(10)
     public void createSecondUser() throws Exception {
-        UserEntity user = createUser(
+        UserEntity user = UserUtils.createUser(
             "test4",
             "testtest",
             "test4@test4.com"
@@ -161,16 +162,6 @@ public class CreateTest {
     }
 
     // Helper
-    private UserEntity createUser(String username, String password, String email) {
-        UserEntity user = new UserEntity();
-
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
-
-        return user;
-    }
-
     private void checkOkMessage(UserEntity user, String message) throws Exception {
         mvc.perform(
             post("/user/create")
@@ -179,6 +170,7 @@ public class CreateTest {
         )
         // .andDo(print())
         .andExpect(status().isOk())
+        .andExpect(jsonPath("$.ok", is(true)))
         .andExpect(jsonPath("$.data.username", is(user.getUsername())))
         .andExpect(jsonPath("$.data.email", is(user.getEmail())))
         .andExpect(jsonPath("$.data.created_at").isNotEmpty());
