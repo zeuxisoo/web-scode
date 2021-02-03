@@ -35,27 +35,11 @@ public class JwtAuthentication {
     private UserDetailsService userDetailsService;
 
     public JwtTokenModel createToken(String username) {
-        // Claims
-        Claims claims = Jwts.claims();
-        claims.setSubject(username);
+        // Create new claims and set the username to subject
+        Claims newClaims = Jwts.claims();
+        newClaims.setSubject(username);
 
-        // Current date
-        Date now = new Date();
-
-        // Expire at 7 days
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, expiredSecond);
-
-        // Build token
-        String token = Jwts.builder()
-            .setClaims(claims)
-            .setIssuer("sCode")
-            .setIssuedAt(now)
-            .setExpiration(calendar.getTime())
-            .signWith(Keys.hmacShaKeyFor(secretKey), SignatureAlgorithm.HS256)
-            .compact();
-
-        return new JwtTokenModel(username, token, calendar.getTimeInMillis());
+        return generateToken(newClaims, expiredSecond);
     }
 
     public String getToken(HttpServletRequest request) {
@@ -100,25 +84,31 @@ public class JwtAuthentication {
     }
 
     public JwtTokenModel refreshToken(String token) {
+        Claims oldClaims = getClaims(token);
+
+        return generateToken(oldClaims, refreshSecond);
+    }
+
+    //
+    private JwtTokenModel generateToken(Claims claims, int expireSecond) {
         // Current date
         Date now = new Date();
 
-        // Refresh at 7 * 2 days
+        // Expire date
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, refreshSecond);
+        calendar.add(Calendar.SECOND, expireSecond);
 
-        // Change expiration date and issue date base on old claim
-        Claims claims = getClaims(token);
+        // Set the claims issue date and expire date
         claims.setIssuedAt(now);
         claims.setExpiration(calendar.getTime());
 
-        // Build refreshed token
-        String refreshToken = Jwts.builder()
+        // Build token
+        String token = Jwts.builder()
             .setClaims(claims)
             .signWith(Keys.hmacShaKeyFor(secretKey), SignatureAlgorithm.HS256)
             .compact();
 
-        return new JwtTokenModel(claims.getSubject(), refreshToken, calendar.getTimeInMillis());
+        return new JwtTokenModel(claims.getSubject(), token, calendar.getTimeInMillis());
     }
 
 }
