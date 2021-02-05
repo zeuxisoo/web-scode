@@ -1,13 +1,12 @@
 package im.ggd.scode;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class ScodeApplicationTests {
+class ScodeApplicationTests extends BaseTestCase {
 
 	@Test
 	void contextLoads() {
-	}
+
+    }
 
 }
