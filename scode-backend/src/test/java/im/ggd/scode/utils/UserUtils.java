@@ -1,10 +1,13 @@
 package im.ggd.scode.utils;
 
+import org.springframework.stereotype.Component;
+
 import im.ggd.scode.entity.UserEntity;
 
+@Component
 public class UserUtils {
 
-    public static UserEntity createUser(String username, String password, String email) {
+    public UserEntity createUser(String username, String password, String email) {
         UserEntity user = new UserEntity();
 
         user.setUsername(username);

@@ -43,13 +43,16 @@ public class SignInTest {
     private ObjectMapper objectMapper;
 
     @Autowired
+    private UserUtils userUtils;
+
+    @Autowired
     private AuthUtils authUtils;
 
     private UserEntity defaultUser;
 
     @BeforeEach
     public void setUp() throws Exception {
-        defaultUser = UserUtils.createUser("test", "testtest", "test@test.com");
+        defaultUser = userUtils.createUser("test", "testtest", "test@test.com");
 
         if (isInit) {
             // Store to database

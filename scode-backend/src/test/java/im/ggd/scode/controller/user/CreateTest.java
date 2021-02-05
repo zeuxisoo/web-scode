@@ -38,11 +38,14 @@ public class CreateTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private UserUtils userUtils;
+
     private UserEntity defaultUser;
 
     @BeforeEach
     public void setUp() {
-        defaultUser = UserUtils.createUser("test", "testtest", "test@test.com");
+        defaultUser = userUtils.createUser("test", "testtest", "test@test.com");
     }
 
     @Test
@@ -55,7 +58,7 @@ public class CreateTest {
     @Order(2)
     public void isUsernameExists() throws Exception {
         // original username and password, new email
-        UserEntity user = UserUtils.createUser(
+        UserEntity user = userUtils.createUser(
             defaultUser.getUsername(),
             defaultUser.getPassword(),
             "test2@test2.com"
@@ -68,7 +71,7 @@ public class CreateTest {
     @Order(3)
     public void isEmailExists() throws Exception {
         // new username, original password and email
-        UserEntity user = UserUtils.createUser(
+        UserEntity user = userUtils.createUser(
             "test3",
             defaultUser.getPassword(),
             defaultUser.getEmail()
@@ -80,7 +83,7 @@ public class CreateTest {
     @Test
     @Order(4)
     public void isUsernameEmpty() throws Exception {
-        UserEntity user = UserUtils.createUser(
+        UserEntity user = userUtils.createUser(
             "",
             "fakePassword",
             "fake@email.com"
@@ -92,7 +95,7 @@ public class CreateTest {
     @Test
     @Order(5)
     public void isPasswordEmpty() throws Exception {
-        UserEntity user = UserUtils.createUser(
+        UserEntity user = userUtils.createUser(
             "fakeUser",
             "",
             "fake@email.com"
@@ -104,7 +107,7 @@ public class CreateTest {
     @Test
     @Order(6)
     public void isEmailEmpty() throws Exception {
-        UserEntity user = UserUtils.createUser(
+        UserEntity user = userUtils.createUser(
             "fakeUser",
             "fakePassword",
             ""
@@ -116,7 +119,7 @@ public class CreateTest {
     @Test
     @Order(7)
     public void isUsernameLessThan4() throws Exception {
-        UserEntity user = UserUtils.createUser(
+        UserEntity user = userUtils.createUser(
             "u",
             "fakePassword",
             "fake@email.com"
@@ -128,7 +131,7 @@ public class CreateTest {
     @Test
     @Order(8)
     public void isPasswordLessThan8() throws Exception {
-        UserEntity user = UserUtils.createUser(
+        UserEntity user = userUtils.createUser(
             "fakeUser",
             "p",
             "fake@email.com"
@@ -140,7 +143,7 @@ public class CreateTest {
     @Test
     @Order(9)
     public void isInvalidEmail() throws Exception {
-        UserEntity user = UserUtils.createUser(
+        UserEntity user = userUtils.createUser(
             "fakeUsername",
             "fakePassword",
             "e"
@@ -152,7 +155,7 @@ public class CreateTest {
     @Test
     @Order(10)
     public void createSecondUser() throws Exception {
-        UserEntity user = UserUtils.createUser(
+        UserEntity user = userUtils.createUser(
             "test4",
             "testtest",
             "test4@test4.com"
