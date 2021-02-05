@@ -1,5 +1,6 @@
 package im.ggd.scode.controller.auth;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,12 +19,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import im.ggd.scode.ScodeApplication;
-import im.ggd.scode.dto.request.AuthSignInRequest;
 import im.ggd.scode.entity.UserEntity;
 import im.ggd.scode.utils.AuthUtils;
 import im.ggd.scode.utils.UserUtils;
@@ -32,7 +33,7 @@ import im.ggd.scode.utils.UserUtils;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ScodeApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class SignInTest {
+public class RefreshTest {
 
     private static boolean isInit = true;
 
@@ -66,18 +67,15 @@ public class SignInTest {
 
     @Test
     @Order(1)
-    public void signInUser() throws Exception {
-        AuthSignInRequest request = authUtils.createAuthSignInRequest(
-            defaultUser.getUsername(),
-            defaultUser.getPassword()
-        );
+    public void refreshToken() throws Exception {
+        // Sign in to get the token first
+        String token = authUtils.fetchToken(defaultUser);
 
         mvc.perform(
-            post("/auth/signin")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
+                get("/auth/refresh")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token))
         )
-        // .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.ok", is(true)))
         .andExpect(jsonPath("$.data.username", is(defaultUser.getUsername())))
@@ -87,70 +85,19 @@ public class SignInTest {
 
     @Test
     @Order(2)
-    public void invalidUsername() throws Exception {
-        AuthSignInRequest request = authUtils.createAuthSignInRequest(
-            "invalidUsername",
-            defaultUser.getPassword()
-        );
+    public void invalidTokenToRefresh() throws Exception {
+        // Sign in to get the token first
+        String token = "this_is_a_invalid_token";
 
-        checkErrorMessage(request, "Invalid username / password");
-    }
-
-    @Test
-    @Order(3)
-    public void invalidPassword() throws Exception {
-        AuthSignInRequest request = authUtils.createAuthSignInRequest(
-            defaultUser.getUsername(),
-            "invalidPassword"
-        );
-
-        checkErrorMessage(request, "Invalid username / password");
-    }
-
-    @Test
-    @Order(4)
-    public void invalidUsernameAndPassword() throws Exception {
-        AuthSignInRequest request = authUtils.createAuthSignInRequest(
-            "invalidUsername",
-            "invalidPassword"
-        );
-
-        checkErrorMessage(request, "Invalid username / password");
-    }
-
-    @Test
-    @Order(5)
-    public void emptyUsername() throws Exception {
-        AuthSignInRequest request = authUtils.createAuthSignInRequest(
-            "",
-            defaultUser.getPassword()
-        );
-
-        checkErrorMessage(request, "Please enter username");
-    }
-
-    @Test
-    @Order(6)
-    public void emptyPassword() throws Exception {
-        AuthSignInRequest request = authUtils.createAuthSignInRequest(
-            defaultUser.getUsername(),
-            ""
-        );
-
-        checkErrorMessage(request, "Please enter password");
-    }
-
-    //
-    private void checkErrorMessage(AuthSignInRequest request, String message) throws Exception {
+        //
         mvc.perform(
-            post("/auth/signin")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
+                get("/auth/refresh")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token))
         )
-        // .andDo(print())
-        .andExpect(status().isBadRequest())
+        .andExpect(status().isForbidden())
         .andExpect(jsonPath("$.ok", is(false)))
-        .andExpect(jsonPath("$.message", is(message)));
+        .andExpect(jsonPath("$.message", is("Entry point authentication failed")));
     }
 
 }
