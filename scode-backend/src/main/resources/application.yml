@@ -7,3 +7,10 @@ server:
 spring:
   profiles:
     active: "dev"
+
+security:
+  jwt:
+    token:
+      secret-key: thisIsASecretKeyString
+      expired-second: 604800  # 7 days
+      refresh-second: 1209600 # 14 days

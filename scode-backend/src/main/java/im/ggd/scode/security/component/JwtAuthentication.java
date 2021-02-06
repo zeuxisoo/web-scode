@@ -13,6 +13,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,11 +26,16 @@ import im.ggd.scode.security.model.JwtTokenModel;
 @Component
 public class JwtAuthentication {
 
-    private byte[] secretKey = "this-is-a-hard-code-key-must-change-it".getBytes();
+    @Value("${security.jwt.token.secret-key:ThisIsDefaultSecretKey}.getBytes()")
+    private byte[] secretKey;
 
-    private int expiredSecond = 60*60*24*7;
+    // Default 7 days for first token when related config is null
+    @Value("#{ ${security.jwt.token.expired-second:60*60*24*7} }")
+    private int expiredSecond;
 
-    private int refreshSecond = 60*60*24*7*2;
+    // Default 14 days for refresh token when related config is null
+    @Value("#{ ${security.jwt.token.refresh-second:60*60*24*7*2} }")
+    private int refreshSecond;
 
     @Autowired
     private UserDetailsService userDetailsService;
