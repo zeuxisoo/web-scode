@@ -1,14 +1,17 @@
 package im.ggd.scode.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -33,6 +36,9 @@ public class UserEntity {
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<RoleEntity> roles;
 
     @Column(name = "created_at")
     @CreatedDate
