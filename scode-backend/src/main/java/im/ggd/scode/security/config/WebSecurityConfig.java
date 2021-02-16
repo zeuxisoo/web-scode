@@ -32,8 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/user/create").permitAll()
-                .antMatchers("/auth/signin").permitAll()
+                .antMatchers("/api/user/create").permitAll()
+                .antMatchers("/api/auth/signin").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

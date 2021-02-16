@@ -48,7 +48,7 @@ public class RefreshTest extends BaseTestCase {
         if (isInit) {
             // Store to database
             mvc.perform(
-                post("/user/create")
+                post("/api/user/create")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(defaultUser))
             )
@@ -65,7 +65,7 @@ public class RefreshTest extends BaseTestCase {
         String token = authUtils.fetchToken(defaultUser);
 
         mvc.perform(
-                get("/auth/refresh")
+                get("/api/auth/refresh")
                     .contentType(MediaType.APPLICATION_JSON)
                     .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token))
         )
@@ -84,7 +84,7 @@ public class RefreshTest extends BaseTestCase {
 
         //
         mvc.perform(
-                get("/auth/refresh")
+                get("/api/auth/refresh")
                     .contentType(MediaType.APPLICATION_JSON)
                     .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token))
         )

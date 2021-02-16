@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import im.ggd.scode.annotation.ApiController;
 import im.ggd.scode.dto.converter.JwtTokenConverter;
 import im.ggd.scode.dto.request.AuthSignInRequest;
 import im.ggd.scode.dto.response.ItemResponse;
@@ -17,6 +18,7 @@ import im.ggd.scode.security.model.JwtTokenModel;
 import im.ggd.scode.service.AuthService;
 import im.ggd.scode.validation.group.order.BasicOrder;
 
+@ApiController
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

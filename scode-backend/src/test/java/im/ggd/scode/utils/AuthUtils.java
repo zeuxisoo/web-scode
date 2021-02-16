@@ -38,7 +38,7 @@ public class AuthUtils {
         );
 
         String content = mvc.perform(
-                            post("/auth/signin")
+                            post("/api/auth/signin")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(request))
                          )

@@ -157,7 +157,7 @@ public class CreateTest extends BaseTestCase {
     // Helper
     private void checkOkMessage(UserEntity user, String message) throws Exception {
         mvc.perform(
-            post("/user/create")
+            post("/api/user/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user))
         )
@@ -171,7 +171,7 @@ public class CreateTest extends BaseTestCase {
 
     private void checkErrorMessage(UserEntity user, String message) throws Exception {
         mvc.perform(
-            post("/user/create")
+            post("/api/user/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user))
         )

@@ -47,7 +47,7 @@ public class SignInTest extends BaseTestCase {
         if (isInit) {
             // Store to database
             mvc.perform(
-                post("/user/create")
+                post("/api/user/create")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(defaultUser))
             )
@@ -66,7 +66,7 @@ public class SignInTest extends BaseTestCase {
         );
 
         mvc.perform(
-            post("/auth/signin")
+            post("/api/auth/signin")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
         )
@@ -136,7 +136,7 @@ public class SignInTest extends BaseTestCase {
     //
     private void checkErrorMessage(AuthSignInRequest request, String message) throws Exception {
         mvc.perform(
-            post("/auth/signin")
+            post("/api/auth/signin")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
         )
