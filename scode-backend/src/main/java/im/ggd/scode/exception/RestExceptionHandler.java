@@ -39,7 +39,13 @@ public class RestExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler({ UsernameNotFoundException.class })
     public ErrorResponse handleUsernameNotFoundException(UsernameNotFoundException e) {
-        return createErrorResponse(false, "No user not found by username");
+        return createErrorResponse(false, "Cannot found user by username");
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler({ UserNotFoundException.class })
+    public ErrorResponse handleUserNotFoundException(UserNotFoundException e) {
+        return createErrorResponse(false, "User not found in current status");
     }
 
     //
