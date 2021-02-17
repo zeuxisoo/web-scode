@@ -1,5 +1,7 @@
 package im.ggd.scode.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,11 @@ public class ArticleServiceImpl implements ArticleService {
         article.setContent(request.getContent());
 
         return articleRepository.save(article);
+    }
+
+    @Override
+    public List<ArticleEntity> show() {
+        return articleRepository.findAllByOrderByCreatedAtDesc();
     }
 
 }
