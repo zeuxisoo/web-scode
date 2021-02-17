@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import im.ggd.scode.annotation.ApiController;
 import im.ggd.scode.dto.converter.ArticleConverter;
-import im.ggd.scode.dto.converter.ArticlesConverter;
+import im.ggd.scode.dto.converter.ArticleListConverter;
 import im.ggd.scode.dto.request.ArticleStoreRequest;
 import im.ggd.scode.dto.response.CollectionResponse;
 import im.ggd.scode.dto.response.ItemResponse;
@@ -39,7 +39,7 @@ public class ArticleController {
     public CollectionResponse<?> show() {
         List<ArticleEntity> articles = articleService.show();
 
-        return new CollectionResponse<>(articles, new ArticlesConverter());
+        return new CollectionResponse<>(articles, new ArticleListConverter());
     }
 
 }

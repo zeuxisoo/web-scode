@@ -7,7 +7,7 @@ import org.springframework.core.convert.converter.Converter;
 
 import im.ggd.scode.entity.ArticleEntity;
 
-public class ArticlesConverter implements Converter<List<ArticleEntity>, List<Object>> {
+public class ArticleListConverter implements Converter<List<ArticleEntity>, List<Object>> {
 
     @Override
     public List<Object> convert(List<ArticleEntity> source) {
