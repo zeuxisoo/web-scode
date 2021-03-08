@@ -1,5 +1,6 @@
 package im.ggd.scode.utils;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +38,14 @@ public class ArticleUtils {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
                 .content(objectMapper.writeValueAsString(article))
+        );
+    }
+
+    public ResultActions allArticle(String jwtToken) throws Exception {
+        return mvc.perform(
+            get("/api/article/all")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
         );
     }
 

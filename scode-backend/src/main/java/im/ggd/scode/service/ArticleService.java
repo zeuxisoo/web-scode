@@ -9,6 +9,6 @@ public interface ArticleService {
 
     public ArticleEntity store(ArticleStoreRequest request);
 
-    public List<ArticleEntity> show();
+    public List<ArticleEntity> all();
 
 }

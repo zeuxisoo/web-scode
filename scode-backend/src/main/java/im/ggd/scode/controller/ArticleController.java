@@ -35,9 +35,9 @@ public class ArticleController {
         return new ItemResponse(article, new ArticleConverter());
     }
 
-    @GetMapping("/show")
-    public CollectionResponse<?> show() {
-        List<ArticleEntity> articles = articleService.show();
+    @GetMapping("/all")
+    public CollectionResponse<?> all() {
+        List<ArticleEntity> articles = articleService.all();
 
         return new CollectionResponse<>(articles, new ArticleListConverter());
     }

@@ -33,7 +33,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleEntity> show() {
+    public List<ArticleEntity> all() {
         return articleRepository.findAllByOrderByCreatedAtDesc();
     }
 
