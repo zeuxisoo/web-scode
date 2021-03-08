@@ -13,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -72,7 +71,7 @@ public class CreateTest extends BaseTestCase {
     public void createArticle() throws Exception {
         ArticleEntity article = articleUtils.createArticle("testTitle", "testContent");
 
-        checkOkMessage(article, "Please enter content");
+        checkOkMessage(article);
     }
 
     @Test
@@ -92,32 +91,22 @@ public class CreateTest extends BaseTestCase {
     }
 
     // Helper
-    private void checkOkMessage(ArticleEntity article, String message) throws Exception {
-        mvc.perform(
-            post("/api/article/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
-                .content(objectMapper.writeValueAsString(article))
-        )
-        // .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.ok", is(true)))
-        .andExpect(jsonPath("$.data.title", is(article.getTitle())))
-        .andExpect(jsonPath("$.data.content", is(article.getContent())))
-        .andExpect(jsonPath("$.data.created_at").isNotEmpty());
+    private void checkOkMessage(ArticleEntity article) throws Exception {
+        articleUtils.storeArticle(jwtToken, article)
+            // .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.ok", is(true)))
+            .andExpect(jsonPath("$.data.title", is(article.getTitle())))
+            .andExpect(jsonPath("$.data.content", is(article.getContent())))
+            .andExpect(jsonPath("$.data.created_at").isNotEmpty());
     }
 
     private void checkErrorMessage(ArticleEntity article, String message) throws Exception {
-        mvc.perform(
-            post("/api/article/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
-                .content(objectMapper.writeValueAsString(article))
-        )
-        // .andDo(print())
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.ok", is(false)))
-        .andExpect(jsonPath("$.message", is(message)));
+        articleUtils.storeArticle(jwtToken, article)
+            // .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.ok", is(false)))
+            .andExpect(jsonPath("$.message", is(message)));
     }
 
 }
