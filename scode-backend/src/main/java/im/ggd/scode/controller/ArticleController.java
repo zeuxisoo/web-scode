@@ -52,7 +52,6 @@ public class ArticleController {
     public PaginatorResponse<?> list(@RequestParam(required = false, defaultValue = "0") int page) {
         Page<ArticleEntity> articles = articleService.list(page, perPageSize);
 
-        // TODO: add pagiation information into response data
         return new PaginatorResponse<>(articles, new ArticleListConverter());
     }
 
