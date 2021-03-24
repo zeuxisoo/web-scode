@@ -24,7 +24,7 @@ import im.ggd.scode.utils.ArticleUtils;
 import im.ggd.scode.utils.AuthUtils;
 import im.ggd.scode.utils.UserUtils;
 
-public class ShowTest extends BaseTestCase {
+public class AllTest extends BaseTestCase {
 
     private static boolean isInit = true;
 
