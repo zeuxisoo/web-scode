@@ -32,6 +32,9 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private PaginatorResponse<ArticleEntity> paginatorResponse;
+
     private static int perPageSize = 3;
 
     @PostMapping("/create")
@@ -52,7 +55,7 @@ public class ArticleController {
     public PaginatorResponse<?> list(@RequestParam(required = false, defaultValue = "0") int page) {
         Page<ArticleEntity> articles = articleService.list(page, perPageSize);
 
-        return new PaginatorResponse<>(articles, new ArticleListConverter());
+        return paginatorResponse.ok(articles, new ArticleListConverter());
     }
 
 }
