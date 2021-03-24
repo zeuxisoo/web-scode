@@ -55,7 +55,11 @@ public class PaginatorResponse<T> {
         pagination.put("total", data.getTotalElements());
         pagination.put("total_pages", data.getTotalPages());
 
-        pagination.put("links", getPaginationLinks(data));
+        HashMap<String, String> links = getPaginationLinks(data);
+
+        if (!links.isEmpty()) {
+            pagination.put("links", links);
+        }
 
         return pagination;
     }
@@ -81,7 +85,9 @@ public class PaginatorResponse<T> {
             url  = uriBuilder.replaceQueryParam(pageParameterName, currentPage + 1).build().toString();
         }
 
-        links.put(name, url);
+        if (!name.isEmpty() && !url.isEmpty()) {
+            links.put(name, url);
+        }
 
         return links;
     }
