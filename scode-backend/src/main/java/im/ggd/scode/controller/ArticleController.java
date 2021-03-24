@@ -3,6 +3,7 @@ package im.ggd.scode.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,8 @@ public class ArticleController {
     @Autowired
     private PaginatorResponse<ArticleEntity> paginatorResponse;
 
-    private static int perPageSize = 3;
+    @Value("${app.article.list.per-page:10}")
+    private int perPageSize;
 
     @PostMapping("/create")
     public ItemResponse create(@RequestBody @Validated({ BasicOrder.class }) ArticleStoreRequest request) {
