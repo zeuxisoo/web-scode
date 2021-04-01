@@ -26,22 +26,23 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
+    @Autowired
+    private ItemResponse<JwtTokenModel> itemResponse;
+
     @PostMapping("/signin")
-    public ItemResponse signIn(@RequestBody @Validated({ BasicOrder.class }) AuthSignInRequest request) {
+    public ItemResponse<?> signIn(@RequestBody @Validated({ BasicOrder.class }) AuthSignInRequest request) {
         JwtTokenModel token = authService.signIn(request);
 
-        // return new ItemResponse(token, new JwtTokenTransformer());
-        return new ItemResponse(token, new JwtTokenConverter());
+        return itemResponse.ok(token, new JwtTokenConverter());
     }
 
     @GetMapping("/refresh")
-    public ItemResponse refresh(@RequestHeader HttpHeaders headers) {
+    public ItemResponse<?> refresh(@RequestHeader HttpHeaders headers) {
         String authorization = headers.getFirst(HttpHeaders.AUTHORIZATION);
 
         JwtTokenModel token = authService.refresh(authorization);
 
-        // return new ItemResponse(token, new JwtTokenTransformer());
-        return new ItemResponse(token, new JwtTokenConverter());
+        return itemResponse.ok(token, new JwtTokenConverter());
     }
 
 }

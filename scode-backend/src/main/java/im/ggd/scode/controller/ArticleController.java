@@ -34,6 +34,9 @@ public class ArticleController {
     private ArticleService articleService;
 
     @Autowired
+    private ItemResponse<ArticleEntity> itemResponse;
+
+    @Autowired
     private CollectionResponse<ArticleEntity> collectionResponse;
 
     @Autowired
@@ -43,11 +46,10 @@ public class ArticleController {
     private int perPageSize;
 
     @PostMapping("/create")
-    public ItemResponse create(@RequestBody @Validated({ BasicOrder.class }) ArticleStoreRequest request) {
+    public ItemResponse<?> create(@RequestBody @Validated({ BasicOrder.class }) ArticleStoreRequest request) {
         ArticleEntity article = articleService.store(request);
 
-        // TODO: change to component
-        return new ItemResponse(article, new ArticleConverter());
+        return itemResponse.ok(article, new ArticleConverter());
     }
 
     @GetMapping("/all")

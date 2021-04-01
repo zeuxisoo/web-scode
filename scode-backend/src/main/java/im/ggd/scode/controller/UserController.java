@@ -24,12 +24,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ItemResponse<UserEntity> itemResponse;
+
     @PostMapping("/create")
-    public ItemResponse create(@RequestBody @Validated({ BasicOrder.class }) UserCreateRequest request) {
+    public ItemResponse<?> create(@RequestBody @Validated({ BasicOrder.class }) UserCreateRequest request) {
         UserEntity user = userService.store(request);
 
-        // return new ItemResponse(user, new UserTransformer());
-        return new ItemResponse(user, new UserConverter());
+        return itemResponse.ok(user, new UserConverter());
     }
 
     @GetMapping("/profile")
