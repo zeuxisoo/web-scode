@@ -74,4 +74,22 @@ public class ArticleUtils {
         );
     }
 
+    public ResultActions updateArticle(String jwtToken, Long id, ArticleEntity article) throws Exception {
+        return mvc.perform(
+            post("/api/article/update/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
+                .content(objectMapper.writeValueAsString(article))
+        );
+    }
+
+    public ResultActions updateArticle(String jwtToken, String id, ArticleEntity article) throws Exception {
+        return mvc.perform(
+            post("/api/article/update/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
+                .content(objectMapper.writeValueAsString(article))
+        );
+    }
+
 }
