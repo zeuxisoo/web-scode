@@ -24,7 +24,7 @@ public class RestExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
     public ErrorResponse handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e) {
-        return createErrorResponse(false, "The type of value incorrect");
+        return createErrorResponse(false, "The type of argument incorrect");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

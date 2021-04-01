@@ -58,4 +58,20 @@ public class ArticleUtils {
         );
     }
 
+    public ResultActions showArticle(String jwtToken, Long id) throws Exception {
+        return mvc.perform(
+            get("/api/article/show/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
+        );
+    }
+
+    public ResultActions showArticle(String jwtToken, String id) throws Exception {
+        return mvc.perform(
+            get("/api/article/show/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
+        );
+    }
+
 }
