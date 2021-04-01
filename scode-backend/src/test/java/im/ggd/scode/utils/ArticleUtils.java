@@ -49,4 +49,13 @@ public class ArticleUtils {
         );
     }
 
+    public ResultActions listArticle(String jwtToken, int page) throws Exception {
+        return mvc.perform(
+            get("/api/article/list")
+                .queryParam("page", String.valueOf(page))
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
+        );
+    }
+
 }
