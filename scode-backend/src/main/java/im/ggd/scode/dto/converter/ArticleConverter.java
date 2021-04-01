@@ -15,6 +15,7 @@ public class ArticleConverter implements Converter<Object, Map<String, Object>> 
         ArticleEntity articleModel = (ArticleEntity) source;
 
         Map<String, Object> article = Stream.of(new Object[][] {
+            { "id",         articleModel.getId() },
             { "title",      articleModel.getTitle() },
             { "content",    articleModel.getContent() },
             { "created_at", articleModel.getCreatedAt() },
