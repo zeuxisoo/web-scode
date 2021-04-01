@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +65,13 @@ public class ArticleController {
         Page<ArticleEntity> articles = articleService.list(page, perPageSize);
 
         return paginatorResponse.ok(articles, new ArticleListConverter());
+    }
+
+    @GetMapping("/show/{id}")
+    public ItemResponse<?> show(@PathVariable Long id) {
+         ArticleEntity article = articleService.findById(id).orElseThrow();
+
+         return itemResponse.ok(article, new ArticleConverter());
     }
 
 }

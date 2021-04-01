@@ -1,6 +1,7 @@
 package im.ggd.scode.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
@@ -14,5 +15,7 @@ public interface ArticleService {
     public List<ArticleEntity> all();
 
     public Page<ArticleEntity> list(int currentPage, int perPageSize);
+
+    public Optional<ArticleEntity> findById(Long id);
 
 }

@@ -1,5 +1,6 @@
 package im.ggd.scode.exception;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
@@ -8,11 +9,21 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import im.ggd.scode.dto.response.ErrorResponse;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
+
+    @Autowired
+    private ErrorResponse errorResponse;
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
+    public ErrorResponse handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e) {
+        return createErrorResponse(false, "The type of value incorrect");
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ MethodArgumentNotValidException.class })
@@ -50,7 +61,7 @@ public class RestExceptionHandler {
 
     //
     protected ErrorResponse createErrorResponse(boolean isOK, String message) {
-        return new ErrorResponse(isOK, message);
+        return errorResponse.error(message);
     }
 
 }
