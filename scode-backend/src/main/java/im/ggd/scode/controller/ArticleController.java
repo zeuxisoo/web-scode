@@ -1,7 +1,6 @@
 package im.ggd.scode.controller;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +19,7 @@ import im.ggd.scode.dto.converter.ArticleConverter;
 import im.ggd.scode.dto.converter.ArticleListConverter;
 import im.ggd.scode.dto.converter.ArticleAllConverter;
 import im.ggd.scode.dto.request.ArticleStoreRequest;
+import im.ggd.scode.dto.request.ArticleUpdateRequest;
 import im.ggd.scode.dto.response.CollectionResponse;
 import im.ggd.scode.dto.response.ItemResponse;
 import im.ggd.scode.dto.response.PaginatorResponse;
@@ -70,11 +70,19 @@ public class ArticleController {
 
     @GetMapping("/show/{id}")
     public ItemResponse<?> show(@PathVariable(required = true) Long id) {
-        ArticleEntity article = articleService.findById(id).orElseThrow(
-             () -> new NoSuchElementException("Cannot found related article by id")
-        );
+        ArticleEntity article = articleService.findById(id);
 
          return itemResponse.ok(article, new ArticleConverter());
+    }
+
+    @PostMapping("/update/{id}")
+    public ItemResponse<?> update(
+        @PathVariable(required = true) Long id,
+        @RequestBody @Validated({ BasicOrder.class }) ArticleUpdateRequest request
+    ) {
+        ArticleEntity article = articleService.updateById(id, request);
+
+        return itemResponse.ok(article, new ArticleConverter());
     }
 
 }
