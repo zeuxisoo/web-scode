@@ -34,6 +34,9 @@ public class ArticleController {
     private ArticleService articleService;
 
     @Autowired
+    private CollectionResponse<ArticleEntity> collectionResponse;
+
+    @Autowired
     private PaginatorResponse<ArticleEntity> paginatorResponse;
 
     @Value("${app.article.list.per-page:10}")
@@ -43,6 +46,7 @@ public class ArticleController {
     public ItemResponse create(@RequestBody @Validated({ BasicOrder.class }) ArticleStoreRequest request) {
         ArticleEntity article = articleService.store(request);
 
+        // TODO: change to component
         return new ItemResponse(article, new ArticleConverter());
     }
 
@@ -50,7 +54,7 @@ public class ArticleController {
     public CollectionResponse<?> all() {
         List<ArticleEntity> articles = articleService.all();
 
-        return new CollectionResponse<>(articles, new ArticleAllConverter());
+        return collectionResponse.ok(articles, new ArticleAllConverter());
     }
 
     @GetMapping("/list")
