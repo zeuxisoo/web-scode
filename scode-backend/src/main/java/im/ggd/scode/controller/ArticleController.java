@@ -69,7 +69,7 @@ public class ArticleController {
     }
 
     @GetMapping("/show/{id}")
-    public ItemResponse<?> show(@PathVariable Long id) {
+    public ItemResponse<?> show(@PathVariable(required = true) Long id) {
         ArticleEntity article = articleService.findById(id).orElseThrow(
              () -> new NoSuchElementException("Cannot found related article by id")
         );
