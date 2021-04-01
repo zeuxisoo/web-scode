@@ -1,6 +1,7 @@
 package im.ggd.scode.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,7 +70,9 @@ public class ArticleController {
 
     @GetMapping("/show/{id}")
     public ItemResponse<?> show(@PathVariable Long id) {
-         ArticleEntity article = articleService.findById(id).orElseThrow();
+        ArticleEntity article = articleService.findById(id).orElseThrow(
+             () -> new NoSuchElementException("Cannot found related article by id")
+        );
 
          return itemResponse.ok(article, new ArticleConverter());
     }

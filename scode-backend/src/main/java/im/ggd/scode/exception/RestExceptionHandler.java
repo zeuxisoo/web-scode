@@ -1,5 +1,7 @@
 package im.ggd.scode.exception;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -57,6 +59,12 @@ public class RestExceptionHandler {
     @ExceptionHandler({ UserNotFoundException.class })
     public ErrorResponse handleUserNotFoundException(UserNotFoundException e) {
         return createErrorResponse(false, "User not found in current status");
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({ NoSuchElementException.class })
+    public ErrorResponse handleNoSuchElementException(NoSuchElementException e) {
+        return createErrorResponse(false, e.getMessage());
     }
 
     //
