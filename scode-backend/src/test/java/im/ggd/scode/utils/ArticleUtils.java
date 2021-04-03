@@ -92,4 +92,20 @@ public class ArticleUtils {
         );
     }
 
+    public ResultActions deleteArticle(String jwtToken, Long id) throws Exception {
+        return mvc.perform(
+            post("/api/article/delete/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
+        );
+    }
+
+    public ResultActions deleteArticle(String jwtToken, String id) throws Exception {
+        return mvc.perform(
+            post("/api/article/delete/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
+        );
+    }
+
 }
