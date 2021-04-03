@@ -63,4 +63,13 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.save(article);
     }
 
+    @Override
+    public ArticleEntity deleteById(Long id) {
+        ArticleEntity article = this.findById(id);
+
+        articleRepository.delete(article);
+
+        return article;
+    }
+
 }

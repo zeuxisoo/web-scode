@@ -20,4 +20,6 @@ public interface ArticleService {
 
     public ArticleEntity updateById(Long id, ArticleUpdateRequest request);
 
+    public ArticleEntity deleteById(Long id);
+
 }

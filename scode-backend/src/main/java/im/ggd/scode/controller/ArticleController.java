@@ -85,4 +85,11 @@ public class ArticleController {
         return itemResponse.ok(article, new ArticleConverter());
     }
 
+    @PostMapping("/delete/{id}")
+    public ItemResponse<?> delete(@PathVariable(required = true) Long id) {
+        ArticleEntity article = articleService.deleteById(id);
+
+        return itemResponse.ok(article, new ArticleConverter());
+    }
+
 }
