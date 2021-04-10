@@ -8,7 +8,7 @@ let data = {
     password: { value: "", ref: null },
 }
 
-function signUp() {
+function handleSignUp() {
     const rules = {
         'username': 'isEmpty|isLengthSmallerThan:4',
         'email'   : 'isEmpty|isNotEmail',
@@ -39,7 +39,7 @@ function signUp() {
                     <input type="password" class="form-control" id="password" placeholder="your password" bind:value={data.password.value} bind:this={data.password.ref}>
                 </div>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-secondary" on:click={signUp}>Sign up</button>
+                    <button type="submit" class="btn btn-secondary" on:click={handleSignUp}>Sign up</button>
                 </div>
             </div>
         </div>
