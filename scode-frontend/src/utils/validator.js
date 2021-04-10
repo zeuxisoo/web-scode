@@ -62,7 +62,7 @@ const Validator = {
         return this.validate(data, rules);
     },
 
-    fail(data, rules) {
+    fails(data, rules) {
         return !this.passes(data, rules);
     },
 
