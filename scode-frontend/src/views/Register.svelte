@@ -12,9 +12,9 @@ function handleSignUp() {
     data = trimData(data);
 
     const rules = {
-        'username': 'isEmpty|isLengthSmallerThan:4',
-        'email'   : 'isEmpty|isNotEmail',
-        'password': 'isEmpty|isLengthSmallerThan:8',
+        'username': 'isNotEmpty|isLengthSmallerThan:4',
+        'email'   : 'isNotEmpty|isNotEmail',
+        'password': 'isNotEmpty|isLengthSmallerThan:8',
     }
 
     if (Validator.passes(data, rules)) {

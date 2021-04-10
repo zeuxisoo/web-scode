@@ -2,7 +2,7 @@ import * as R from 'ramda';
 
 const validators = {
 
-    isEmpty(field, fieldName) {
+    isNotEmpty(field, fieldName) {
         if (R.isEmpty(field.value)) {
             alert(`Please enter ${fieldName}`);
             field.ref.focus();
