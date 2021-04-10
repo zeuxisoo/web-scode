@@ -42,7 +42,7 @@ const Validator = {
                 let [validatorName, validatorArguments] = validator.split(':');
 
                 // Ensure arguments is array not undefined
-                validatorArguments = validatorArguments ?? [];
+                validatorArguments = validatorArguments?.split(',') ?? [];
 
                 // Stop the validation when current rule failed
                 const result = validators[validatorName].call(
