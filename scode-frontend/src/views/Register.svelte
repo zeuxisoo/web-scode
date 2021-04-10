@@ -1,5 +1,5 @@
 <script>
-import { trim } from 'ramda';
+import { trimData } from '../utils';
 import Validator from '../utils/validator';
 
 let data = {
@@ -9,11 +9,13 @@ let data = {
 }
 
 function handleSignUp() {
+    data = trimData(data);
+
     const rules = {
         'username': 'isEmpty|isLengthSmallerThan:4',
         'email'   : 'isEmpty|isNotEmail',
         'password': 'isEmpty|isLengthSmallerThan:8',
-    };
+    }
 
     if (Validator.passes(data, rules)) {
         console.log(data);
