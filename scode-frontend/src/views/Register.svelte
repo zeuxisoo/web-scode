@@ -1,40 +1,10 @@
 <script>
-import { isEmpty, trim } from 'ramda';
-import { isEmail } from '../utils';
+import { trim } from 'ramda';
+import { checkIsEmpty, checkIsEmail, checkIsLengthBigger, checkIsValidate } from '../utils';
 
 let username = { value: "", ref: null };
 let email    = { value: "", ref: null };
 let password = { value: "", ref: null };
-
-function checkIsEmpty(field, message) {
-    if (isEmpty(field.value)) {
-        alert(message);
-        field.ref.focus();
-        return false;
-    }
-
-    return true;
-}
-
-function checkIsEmail(field, message) {
-    if (!isEmail(field.value)) {
-        alert(message);
-        field.ref.focus();
-        return false;
-    }
-
-    return true;
-}
-
-function checkIsLengthBigger(field, message, minLength) {
-    if (field.value.length < minLength) {
-        alert(message);
-        field.ref.focus();
-        return false;
-    }
-
-    return true;
-}
 
 function signUp() {
     username.value = trim(username.value);
@@ -65,15 +35,9 @@ function signUp() {
         },
     ];
 
-    for(let field of fields) {
-        for(let rule of field.rules) {
-            if (!rule.name.call(this, field.control, rule.message, ...rule.args)) {
-                return;
-            }
-        }
+    if (checkIsValidate(fields)) {
+        console.log(username.value, email.value, password.value);
     }
-
-    console.log(username.value, email.value, password.value);
 }
 </script>
 
