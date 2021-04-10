@@ -12,7 +12,7 @@ const validators = {
         return true;
     },
 
-    isNotEmail(field, fieldName) {
+    isEmail(field, fieldName) {
         if (!/\S+@\S+\.\S+/.test(field.value)) {
             alert(`Invalid email format invalid`);
             field.ref.focus();
@@ -22,9 +22,9 @@ const validators = {
         return true;
     },
 
-    isLengthSmallerThan(field, fieldName, minLength) {
-        if (field.value.length < minLength) {
-            alert(`The ${fieldName} must more than ${minLength} letters`);
+    isLengthBiggerThan(field, fieldName, maxLength) {
+        if (field.value.length < maxLength) {
+            alert(`The ${fieldName} must more than ${maxLength} letters`);
             field.ref.focus();
             return false;
         }
