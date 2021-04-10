@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 
-const validators = {
+const validatorRules = {
 
     isNotEmpty(field, fieldName) {
         if (R.isEmpty(field.value)) {
@@ -37,16 +37,16 @@ const validators = {
 const Validator = {
 
     validate(data, rules) {
-        for(let [fieldName, rule] of Object.entries(rules)) {
-            for(let validator of rule.split('|')) {
-                let [validatorName, validatorArguments] = validator.split(':');
+        for(const [fieldName, ruleText] of Object.entries(rules)) {
+            for(let rule of ruleText.split('|')) {
+                let [ruleName, ruleArguments] = rule.split(':');
 
-                // Ensure arguments is array not undefined
-                validatorArguments = validatorArguments?.split(',') ?? [];
+                // Ensure rule arguments is array not undefined
+                ruleArguments = ruleArguments?.split(',') ?? [];
 
-                // Stop the validation when current rule failed
-                const result = validators[validatorName].call(
-                    this, data[fieldName], fieldName, ...validatorArguments
+                // Stop the validation when current validator rule failed
+                const result = validatorRules[ruleName].call(
+                    this, data[fieldName], fieldName, ...ruleArguments
                 );
 
                 if (!result) {
