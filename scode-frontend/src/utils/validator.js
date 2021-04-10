@@ -1,43 +1,71 @@
 import * as R from 'ramda';
 
-export function isEmpty(field, message) {
-    if (R.isEmpty(field.value)) {
-        alert(message);
-        field.ref.focus();
-        return false;
-    }
+const validators = {
 
-    return true;
+    isEmpty(field, fieldName) {
+        if (R.isEmpty(field.value)) {
+            alert(`Please enter ${fieldName}`);
+            field.ref.focus();
+            return false;
+        }
+
+        return true;
+    },
+
+    isNotEmail(field, fieldName) {
+        if (!/\S+@\S+\.\S+/.test(field.value)) {
+            alert(`Invalid email format invalid`);
+            field.ref.focus();
+            return false;
+        }
+
+        return true;
+    },
+
+    isLengthSmallerThan(field, fieldName, minLength) {
+        if (field.value.length < minLength) {
+            alert(`The ${fieldName} must more than ${minLength} letters`);
+            field.ref.focus();
+            return false;
+        }
+
+        return true;
+    },
+
 }
 
-export function isEmail(field, message) {
-    if (!/\S+@\S+\.\S+/.test(field.value)) {
-        alert(message);
-        field.ref.focus();
-        return false;
-    }
+const Validator = {
 
-    return true;
-}
+    validate(data, rules) {
+        for(let [fieldName, rule] of Object.entries(rules)) {
+            for(let validator of rule.split('|')) {
+                let [validatorName, validatorArguments] = validator.split(':');
 
-export function isLengthBigger(field, message, minLength) {
-    if (field.value.length < minLength) {
-        alert(message);
-        field.ref.focus();
-        return false;
-    }
+                // Ensure arguments is array not undefined
+                validatorArguments = validatorArguments ?? [];
 
-    return true;
-}
+                // Stop the validation when current rule failed
+                const result = validators[validatorName].call(
+                    this, data[fieldName], fieldName, ...validatorArguments
+                );
 
-export function isValidated(fields) {
-    for(let field of fields) {
-        for(let rule of field.rules) {
-            if (!rule.name.call(this, field.control, rule.message, ...rule.args)) {
-                return false;
+                if (!result) {
+                    return false;
+                }
             }
         }
-    }
 
-    return true;
+        return true;
+    },
+
+    passes(data, rules) {
+        return this.validate(data, rules);
+    },
+
+    fail(data, rules) {
+        return !this.passes(data, rules);
+    },
+
 }
+
+export default Validator;
