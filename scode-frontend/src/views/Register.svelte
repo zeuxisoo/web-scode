@@ -1,6 +1,6 @@
 <script>
 import { trim } from 'ramda';
-import { checkIsEmpty, checkIsEmail, checkIsLengthBigger, checkIsValidate } from '../utils';
+import { isEmpty, isEmail, isLengthBigger, isValidated } from '../utils/validator';
 
 let username = { value: "", ref: null };
 let email    = { value: "", ref: null };
@@ -15,27 +15,27 @@ function signUp() {
         {
             control: username,
             rules  : [
-                { name: checkIsEmpty, args: [], message: "Please enter username" },
-                { name: checkIsLengthBigger, args: [4], message: "Username must more than 4 letters" },
+                { name: isEmpty, args: [], message: "Please enter username" },
+                { name: isLengthBigger, args: [4], message: "Username must more than 4 letters" },
             ],
         },
         {
             control: email,
             rules : [
-                { name: checkIsEmpty, args: [], message: "Please enter email" },
-                { name: checkIsEmail, args: [], message: "Invalid email format" }
+                { name: isEmpty, args: [], message: "Please enter email" },
+                { name: isEmail, args: [], message: "Invalid email format" }
             ],
         },
         {
             control: password,
             rules : [
-                { name: checkIsEmpty, args: [], message: "Please enter password" },
-                { name: checkIsLengthBigger, args: [8], message: "Password must more than 8 letters" },
+                { name: isEmpty, args: [], message: "Please enter password" },
+                { name: isLengthBigger, args: [8], message: "Password must more than 8 letters" },
             ],
         },
     ];
 
-    if (checkIsValidate(fields)) {
+    if (isValidated(fields)) {
         console.log(username.value, email.value, password.value);
     }
 }
