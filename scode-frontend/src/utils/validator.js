@@ -35,7 +35,7 @@ const validatorRules = {
 
 }
 
-const Validator = {
+const validator = {
 
     validate(data, rules) {
         for(const [fieldName, ruleText] of Object.entries(rules)) {
@@ -69,4 +69,4 @@ const Validator = {
 
 }
 
-export default Validator;
+export default validator;
