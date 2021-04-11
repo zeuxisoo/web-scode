@@ -1,11 +1,11 @@
 import * as R from 'ramda';
-import Notifier from './notifier';
+import notifier from './notifier';
 
 const validatorRules = {
 
     isNotEmpty(field, fieldName) {
         if (R.isEmpty(field.value)) {
-            Notifier.error(`Please enter ${fieldName}`);
+            notifier.error(`Please enter ${fieldName}`);
             field.ref.focus();
             return false;
         }
@@ -15,7 +15,7 @@ const validatorRules = {
 
     isEmail(field, fieldName) {
         if (!/\S+@\S+\.\S+/.test(field.value)) {
-            Notifier.error(`Invalid email format invalid`);
+            notifier.error(`Invalid email format invalid`);
             field.ref.focus();
             return false;
         }
@@ -25,7 +25,7 @@ const validatorRules = {
 
     isLengthBiggerThan(field, fieldName, maxLength) {
         if (field.value.length < maxLength) {
-            Notifier.error(`The ${fieldName} must more than ${maxLength} letters`);
+            notifier.error(`The ${fieldName} must more than ${maxLength} letters`);
             field.ref.focus();
             return false;
         }

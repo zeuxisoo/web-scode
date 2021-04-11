@@ -1,6 +1,6 @@
 <script>
 import { trimData } from '../utils';
-import Validator from '../utils/validator';
+import validator from '../utils/validator';
 
 let data = {
     username: { value: "", ref: null },
@@ -15,7 +15,7 @@ function handleSignIn() {
         'password': 'isNotEmpty',
     }
 
-    if (Validator.passes(data, rules)) {
+    if (validator.passes(data, rules)) {
         console.log(data);
     }
 }
