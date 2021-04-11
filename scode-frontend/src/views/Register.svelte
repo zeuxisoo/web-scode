@@ -22,7 +22,7 @@ const handleSignUp = async () => {
 
     if (validator.passes(data, rules)) {
         try {
-            const response = await userApi.post("/create", {
+            const response = await userApi.create({
                 username: data.username.value,
                 email   : data.email.value,
                 password: data.password.value,

@@ -9,25 +9,19 @@ const agent = axios.create({
 
 const api = {
 
-    create(uri) {
-        agent.defaults.baseURL += uri;
-
-        return this;
-    },
-
-    get(uri, params) {
-        return agent.get(uri, params);
-    },
-
-    post(uri, data) {
-        return agent.post(uri, data);
-    }
+    get: (uri, params) => agent.get(uri, params),
+    post: (uri, data) => agent.post(uri, data),
 
 }
 
-const userApi = api.create('/user');
+const userApi = {
+
+    create: (data) => api.post('/user/create', data),
+
+}
 
 export default api;
 export {
+    agent,
     userApi,
 }
