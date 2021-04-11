@@ -1,24 +1,44 @@
 import axios from 'axios';
 
-const baseApiURL = "/api";
+class Agent {
 
-const client = axios.create({
-    baseURL: baseApiURL,
-    timeout: 3000,
-});
+    constructor(baseApiURL = "/api") {
+        this.baseURL = baseApiURL;
 
-const doFetch = (method, uri, data) => {
-    return client[method](uri, data);
+        this.client = axios.create({
+            baseURL: baseApiURL,
+            timeout: 3000,
+        });
+    }
+
+    appendBaseURL(url) {
+        this.client.defaults.baseURL += url;
+    }
+
+    get(uri, data) {
+        return this.client.get(uri, data);
+    }
+
+    post(uri, data) {
+        return this.client.post(uri, data);
+    }
+
 }
 
-const agent = {};
+class UserAgent extends Agent {
 
-['get', 'post'].forEach(method => {
-    agent[method] = (uri, data) => doFetch(method, uri, data);
-});
+    constructor() {
+        super();
+
+        this.appendBaseURL("/user");
+    }
+
+}
+
+const agent = new Agent();
+const userAgent = new UserAgent();
 
 export default agent;
 export {
-    client,
-    doFetch,
+    userAgent,
 }

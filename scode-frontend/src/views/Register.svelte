@@ -1,9 +1,9 @@
 <script>
 import { push } from 'svelte-spa-router';
 import { trimData } from '../utils';
-import Validator from '../utils/validator';
-import Agent from '../utils/agent';
-import Notifier from '../utils/notifier';
+import validator from '../utils/validator';
+import { userAgent } from '../utils/agent';
+import notifier from '../utils/notifier';
 
 let data = {
     username: { value: "", ref: null },
@@ -20,9 +20,9 @@ const handleSignUp = async () => {
         'password': 'isNotEmpty|isLengthBiggerThan:8',
     }
 
-    if (Validator.passes(data, rules)) {
+    if (validator.passes(data, rules)) {
         try {
-            const response = await Agent.post("/user/create", {
+            const response = await userAgent.post("/create", {
                 username: data.username.value,
                 email   : data.email.value,
                 password: data.password.value,
@@ -31,14 +31,14 @@ const handleSignUp = async () => {
             const body = response.data;
 
             if (!body.ok) {
-                Notifier.error(body.message);
+                notifier.error(body.message);
                 return;
             }else{
-                Notifier.ok("Thank you for your registation, You can login now.");
+                notifier.ok("Thank you for your registation, You can login now.");
                 push("/login");
             }
         }catch(e) {
-            Notifier.warn('Unknown Error when register user');
+            notifier.warn('Unknown Error when register user');
 
             console.log(e);
         }
