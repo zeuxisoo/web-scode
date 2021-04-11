@@ -4,7 +4,8 @@ import routes from './routes';
 </script>
 
 <style lang="postcss" global>
-@import "bootstrap";
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "../node_modules/toastr/build/toastr.css";
 
 body {
     padding-top: 15px;
