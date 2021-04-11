@@ -4,6 +4,15 @@ import sveltePreprocess from 'svelte-preprocess';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    server: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8080/',
+                changeOrigin: true,
+            }
+        }
+    },
+
     plugins: [
         svelte({
             preprocess: sveltePreprocess({
