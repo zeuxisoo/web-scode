@@ -3,6 +3,7 @@ import { push } from 'svelte-spa-router';
 import { trimData } from '../utils';
 import Validator from '../utils/validator';
 import Agent from '../utils/agent';
+import Notifier from '../utils/notifier';
 
 let data = {
     username: { value: "", ref: null },
@@ -30,14 +31,14 @@ const handleSignUp = async () => {
             const body = response.data;
 
             if (!body.ok) {
-                alert(body.message);
+                Notifier.error(body.message);
                 return;
             }else{
-                alert("Thank you for your registation, You can login now.");
+                Notifier.ok("Thank you for your registation, You can login now.");
                 push("/login");
             }
         }catch(e) {
-            alert('Unknown Error when register user');
+            Notifier.warn('Unknown Error when register user');
 
             console.log(e);
         }
