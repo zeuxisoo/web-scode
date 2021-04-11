@@ -1,10 +1,10 @@
-import * as R from 'ramda';
+import { isEmpty as isEmptyValue } from 'lodash';
 import notifier from './notifier';
 
 const validatorRules = {
 
     isNotEmpty(field, fieldName) {
-        if (R.isEmpty(field.value)) {
+        if (isEmptyValue(field.value)) {
             notifier.error(`Please enter ${fieldName}`);
             field.ref.focus();
             return false;

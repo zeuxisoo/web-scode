@@ -1,4 +1,4 @@
-import { trim, includes } from 'ramda';
+import { trim, includes } from 'lodash';
 
 export function trimData(data, fields) {
     // Find out which field should be trim
@@ -6,7 +6,7 @@ export function trimData(data, fields) {
     fields = fields ?? Object.keys(data);
 
     for(let name in data) {
-        if (includes(name, fields)) {
+        if (includes(fields, name)) {
             data[name].value = trim(data[name].value);
         }
     }
