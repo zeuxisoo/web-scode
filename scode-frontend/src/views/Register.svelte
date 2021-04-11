@@ -1,6 +1,8 @@
 <script>
+import { push } from 'svelte-spa-router';
 import { trimData } from '../utils';
 import Validator from '../utils/validator';
+import Agent from '../utils/agent';
 
 let data = {
     username: { value: "", ref: null },
@@ -8,7 +10,7 @@ let data = {
     password: { value: "", ref: null },
 }
 
-function handleSignUp() {
+const handleSignUp = async () => {
     data = trimData(data);
 
     const rules = {
@@ -18,7 +20,27 @@ function handleSignUp() {
     }
 
     if (Validator.passes(data, rules)) {
-        console.log(data);
+        try {
+            const response = await Agent.post("/user/create", {
+                username: data.username.value,
+                email   : data.email.value,
+                password: data.password.value,
+            });
+
+            const body = response.data;
+
+            if (!body.ok) {
+                alert(body.message);
+                return;
+            }else{
+                alert("Thank you for your registation, You can login now.");
+                push("/login");
+            }
+        }catch(e) {
+            alert('Unknown Error when register user');
+
+            console.log(e);
+        }
     }
 }
 </script>
