@@ -2,7 +2,7 @@
 import { push } from 'svelte-spa-router';
 import { trimData } from '../utils';
 import validator from '../utils/validator';
-import { userAgent } from '../utils/agent';
+import { userApi } from '../utils/api';
 import notifier from '../utils/notifier';
 
 let data = {
@@ -22,7 +22,7 @@ const handleSignUp = async () => {
 
     if (validator.passes(data, rules)) {
         try {
-            const response = await userAgent.post("/create", {
+            const response = await userApi.post("/create", {
                 username: data.username.value,
                 email   : data.email.value,
                 password: data.password.value,
