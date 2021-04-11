@@ -1,27 +1,53 @@
 import axios from 'axios';
+import { isString } from 'lodash';
 
-const baseURL = "/api";
+const baseApiURL = "/api";
 
-const agent = axios.create({
-    baseURL: baseURL,
-    timeout: 3000,
-});
+class Api {
 
-const api = {
+    constructor() {
+        this.baseURL = baseApiURL;
 
-    get: (uri, params) => agent.get(uri, params),
-    post: (uri, data) => agent.post(uri, data),
+        this.client = axios.create({
+            baseURL: baseApiURL,
+            timeout: 3000,
+        });
+    }
+
+    fetch(method, uri, data) {
+        const token = window.localStorage.getItem('_token');
+
+        delete this.client.defaults.headers['Authorization'];
+
+        if (isString(token)) {
+            this.client.defaults.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        return this.client[method](uri, data);
+    }
+
+    get(uri, query) {
+        return this.fetch('get', uri, query);
+    }
+
+    post(uri, data) {
+        return this.fetch('post', uri, data);
+    }
 
 }
 
-const userApi = {
+class UserApi extends Api {
 
-    create: (data) => api.post('/user/create', data),
+    create(data) {
+        return this.post("/user/create", data);
+    }
 
 }
+
+const api = new Api();
+const userApi = new UserApi();
 
 export default api;
 export {
-    agent,
     userApi,
 }
