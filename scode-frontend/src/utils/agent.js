@@ -1,42 +1,31 @@
 import axios from 'axios';
 
-class Agent {
+const baseURL = "/api";
 
-    constructor(baseApiURL = "/api") {
-        this.baseURL = baseApiURL;
+const client = axios.create({
+    baseURL: baseURL,
+    timeout: 3000,
+});
 
-        this.client = axios.create({
-            baseURL: baseApiURL,
-            timeout: 3000,
-        });
-    }
+const agent = {
 
-    appendBaseURL(url) {
-        this.client.defaults.baseURL += url;
-    }
+    create(uri) {
+        client.defaults.baseURL += uri;
 
-    get(uri, data) {
-        return this.client.get(uri, data);
-    }
+        return this;
+    },
+
+    get(uri, params) {
+        return client.get(uri, params);
+    },
 
     post(uri, data) {
-        return this.client.post(uri, data);
+        return client.post(uri, data);
     }
 
 }
 
-class UserAgent extends Agent {
-
-    constructor() {
-        super();
-
-        this.appendBaseURL("/user");
-    }
-
-}
-
-const agent = new Agent();
-const userAgent = new UserAgent();
+const userAgent = agent.create('/user');
 
 export default agent;
 export {
