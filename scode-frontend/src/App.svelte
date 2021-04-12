@@ -1,6 +1,13 @@
 <script>
 import Router from 'svelte-spa-router';
 import routes from './routes';
+import { createDefaultContext, useDefaultContext } from './context/default.js';
+
+// Inject the default context into global application first
+createDefaultContext();
+
+// Get the default context
+const defaultContext = useDefaultContext();
 </script>
 
 <style lang="postcss" global>
@@ -32,8 +39,10 @@ body {
             <div class="nav-scroller">
                 <div class="nav d-flex justify-content-between">
                     <a class="p-2 link-secondary" href="#/">Home</a>
-                    <a class="p-2 link-secondary" href="#/register">Register</a>
-                    <a class="p-2 link-secondary" href="#/login">Login</a>
+                    {#if !$defaultContext.isAuthenticated}
+                        <a class="p-2 link-secondary" href="#/register">Register</a>
+                        <a class="p-2 link-secondary" href="#/login">Login</a>
+                    {/if}
                 </div>
             </div>
         </div>

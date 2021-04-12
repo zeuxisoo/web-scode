@@ -5,6 +5,9 @@ import validator from '../utils/validator';
 import notifier from '../utils/notifier';
 import token from '../utils/token';
 import { authApi } from '../api';
+import { useDefaultContext } from '../context/default';
+
+const defaultContext = useDefaultContext();
 
 let data = {
     username: { value: "", ref: null },
@@ -35,6 +38,8 @@ const handleSignIn = async () => {
                 const authToken = body.data;
 
                 token.write(authToken);
+
+                $defaultContext.isAuthenticated = true;
 
                 notifier.ok("Login success, Welcome back!");
                 push("/");
