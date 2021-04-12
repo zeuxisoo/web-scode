@@ -2,8 +2,9 @@
 import { push } from 'svelte-spa-router';
 import { trimData } from '../utils';
 import validator from '../utils/validator';
-import { authApi } from '../api';
 import notifier from '../utils/notifier';
+import token from '../utils/token';
+import { authApi } from '../api';
 
 let data = {
     username: { value: "", ref: null },
@@ -31,6 +32,10 @@ const handleSignIn = async () => {
                 notifier.error(body.message);
                 return;
             }else{
+                const authToken = body.data;
+
+                token.write(authToken);
+
                 notifier.ok("Login success, Welcome back!");
                 push("/");
             }
