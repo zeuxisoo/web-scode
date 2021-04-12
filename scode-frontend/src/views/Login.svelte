@@ -1,13 +1,16 @@
 <script>
+import { push } from 'svelte-spa-router';
 import { trimData } from '../utils';
 import validator from '../utils/validator';
+import { authApi } from '../api';
+import notifier from '../utils/notifier';
 
 let data = {
     username: { value: "", ref: null },
     password: { value: "", ref: null },
 }
 
-function handleSignIn() {
+const handleSignIn = async () => {
     data = trimData(data);
 
     const rules = {
@@ -16,7 +19,26 @@ function handleSignIn() {
     }
 
     if (validator.passes(data, rules)) {
-        console.log(data);
+        try {
+            const response = await authApi.signIn({
+                username: data.username.value,
+                password: data.password.value,
+            });
+
+            const body = response.data;
+
+            if (!body.ok) {
+                notifier.error(body.message);
+                return;
+            }else{
+                notifier.ok("Login success, Welcome back!");
+                push("/");
+            }
+        }catch(e) {
+            notifier.warn('Unknown Error when login user');
+
+            console.log(e);
+        }
     }
 }
 </script>

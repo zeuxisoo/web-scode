@@ -2,7 +2,7 @@
 import { push } from 'svelte-spa-router';
 import { trimData } from '../utils';
 import validator from '../utils/validator';
-import { userApi } from '../utils/api';
+import { userApi } from '../api';
 import notifier from '../utils/notifier';
 
 let data = {

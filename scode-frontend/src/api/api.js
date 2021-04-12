@@ -17,6 +17,7 @@ class Api {
     fetch(method, uri, data) {
         const token = window.localStorage.getItem('_token');
 
+        // Clean the client header authorization first to ensure the token is not cached
         delete this.client.defaults.headers['Authorization'];
 
         if (isString(token)) {
@@ -36,18 +37,4 @@ class Api {
 
 }
 
-class UserApi extends Api {
-
-    create(data) {
-        return this.post("/user/create", data);
-    }
-
-}
-
-const api = new Api();
-const userApi = new UserApi();
-
-export default api;
-export {
-    userApi,
-}
+export default Api;
