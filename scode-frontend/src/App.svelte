@@ -11,6 +11,9 @@ createDefaultContext();
 // Get the default context
 const defaultContext = useDefaultContext();
 
+// Try to activate authenticated status when token is exists
+gate.reactivate(defaultContext);
+
 //
 const handleSignOut = () => {
     gate.deactivate(defaultContext);
@@ -57,7 +60,11 @@ body {
                         <a class="p-2 link-secondary" href="#/register">Register</a>
                         <a class="p-2 link-secondary" href="#/login">Login</a>
                     {:else}
-                        <span class="p-2 link-secondary link-logout" on:click={handleSignOut}>Logout</span>
+                        <div class="p-2 link-secondary">
+                            {$defaultContext.user.username}
+                            ▪
+                            <span class="link-logout" on:click={handleSignOut}>[Logout]</span>
+                        </div>
                     {/if}
                 </div>
             </div>

@@ -6,6 +6,10 @@ class UserApi extends Api {
         return this.post("/user/create", data);
     }
 
+    profile() {
+        return this.get("/user/profile");
+    }
+
 }
 
 export default UserApi;
