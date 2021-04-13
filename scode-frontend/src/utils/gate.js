@@ -14,6 +14,7 @@ const gate = {
         token.remove();
 
         defaultContext.isSignedOut();
+        defaultContext.setUser(null);
     },
 
     async reactivate(defaultContext) {

@@ -2,7 +2,7 @@ import { writable, get } from 'svelte/store';
 
 function createDefaultStore() {
     const state = {
-        user: {},
+        user: null,
         isAuthenticated: false,
     };
 
