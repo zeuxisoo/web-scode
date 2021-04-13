@@ -3,7 +3,7 @@ import { push } from 'svelte-spa-router';
 import { trimData } from '../utils';
 import validator from '../utils/validator';
 import notifier from '../utils/notifier';
-import token from '../utils/token';
+import gate from '../utils/gate';
 import { authApi } from '../api';
 import { useDefaultContext } from '../context/default';
 
@@ -37,11 +37,10 @@ const handleSignIn = async () => {
             }else{
                 const authToken = body.data;
 
-                token.write(authToken);
-
-                $defaultContext.isAuthenticated = true;
+                gate.activate(authToken, defaultContext);
 
                 notifier.ok("Login success, Welcome back!");
+
                 push("/");
             }
         }catch(e) {
