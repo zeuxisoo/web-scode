@@ -104,7 +104,7 @@ public class CreateTest extends BaseTestCase {
     private void checkErrorMessage(ArticleEntity article, String message) throws Exception {
         articleUtils.storeArticle(jwtToken, article)
             // .andDo(print())
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isOk())
             .andExpect(jsonPath("$.ok", is(false)))
             .andExpect(jsonPath("$.message", is(message)));
     }

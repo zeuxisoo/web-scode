@@ -137,7 +137,7 @@ public class UpdateTest extends BaseTestCase {
         ArticleEntity newArticle = articleUtils.createArticle("invalidTitle", "invalidContent");
 
         articleUtils.updateArticle(jwtToken, "a", newArticle)
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isOk())
             .andExpect(jsonPath("$.ok", is(false)))
             .andExpect(jsonPath("$.message").value("The type of argument incorrect"));
     }

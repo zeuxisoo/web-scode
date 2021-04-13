@@ -130,7 +130,7 @@ public class DeleteTest extends BaseTestCase {
     @Order(5)
     public void IsArticleDeleteInvalidIdMessage() throws Exception {
         articleUtils.deleteArticle(jwtToken, "a")
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isOk())
             .andExpect(jsonPath("$.ok", is(false)))
             .andExpect(jsonPath("$.message").value("The type of argument incorrect"));
     }

@@ -141,7 +141,7 @@ public class SignInTest extends BaseTestCase {
                 .content(objectMapper.writeValueAsString(request))
         )
         // .andDo(print())
-        .andExpect(status().isBadRequest())
+        .andExpect(status().isOk())
         .andExpect(jsonPath("$.ok", is(false)))
         .andExpect(jsonPath("$.message", is(message)));
     }

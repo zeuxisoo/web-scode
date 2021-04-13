@@ -176,7 +176,7 @@ public class CreateTest extends BaseTestCase {
                 .content(objectMapper.writeValueAsString(user))
         )
         // .andDo(print())
-        .andExpect(status().isBadRequest())
+        .andExpect(status().isOk())
         .andExpect(jsonPath("$.ok", is(false)))
         .andExpect(jsonPath("$.message", is(message)));
     }

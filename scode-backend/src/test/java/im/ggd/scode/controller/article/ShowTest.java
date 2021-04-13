@@ -107,7 +107,7 @@ public class ShowTest extends BaseTestCase {
     @Order(3)
     public void IsArticleShowInvalidIdMessage() throws Exception {
         articleUtils.showArticle(jwtToken, "a")
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isOk())
             .andExpect(jsonPath("$.ok", is(false)))
             .andExpect(jsonPath("$.message").value("The type of argument incorrect"));
     }
