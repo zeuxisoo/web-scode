@@ -1,6 +1,8 @@
 package im.ggd.scode.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,8 +37,13 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String profile() {
-        return "My profile page need signed in";
+    public ItemResponse<?> profile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        UserEntity user = userService.findByUsername(username);
+
+        return itemResponse.ok(user, new UserConverter());
     }
 
 }
