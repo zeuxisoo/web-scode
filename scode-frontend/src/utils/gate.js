@@ -7,7 +7,7 @@ const gate = {
     async activate(authToken, defaultContext) {
         token.write(authToken);
 
-        defaultContext.isSignedIn();
+        return await this.createUserContext(defaultContext);
     },
 
     deactivate(defaultContext) {
@@ -27,12 +27,22 @@ const gate = {
             return;
         }
 
+        return await this.createUserContext(defaultContext);
+    },
+
+    async createUserContext(defaultContext) {
         const user = await this.fetchUserProfile();
 
         if (!isNull(user)) {
             defaultContext.isSignedIn();
             defaultContext.setUser(user);
+
+            return true;
         }
+
+        this.deactivate(defaultContext);
+
+        return false;
     },
 
     async fetchUserProfile() {
@@ -43,14 +53,12 @@ const gate = {
             if (body.ok) {
                 return body.data;
             }else{
-                this.deactivate();
-
                 return null;
             }
         }catch(e) {
-            this.deactivate();
+            return null;
         }
-    }
+    },
 
 }
 
