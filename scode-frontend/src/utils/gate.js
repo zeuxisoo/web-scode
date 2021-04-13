@@ -1,6 +1,7 @@
 import { isString, isEmpty, isNull } from 'lodash';
 import token from './token';
 import { userApi } from '../api';
+import notifier from '../utils/notifier';
 
 const gate = {
 
@@ -57,6 +58,8 @@ const gate = {
                 return null;
             }
         }catch(e) {
+            notifier.error("Authentication failed, Please login again");
+
             return null;
         }
     },
