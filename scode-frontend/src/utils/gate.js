@@ -5,19 +5,13 @@ const gate = {
     activate(authToken, defaultContext) {
         token.write(authToken);
 
-        defaultContext.update(state => ({
-            ...state,
-            isAuthenticated: true,
-        }));
+        defaultContext.isSignedIn();
     },
 
     deactivate(defaultContext) {
         token.remove();
 
-        defaultContext.update(state => ({
-            ...state,
-            isAuthenticated: false,
-        }))
+        defaultContext.isSignedOut();
     }
 
 }

@@ -1,11 +1,23 @@
 import { writable } from 'svelte/store';
 
 function createDefaultStore() {
-    const store = writable({
+    const { subscribe, set, update } = writable({
         isAuthenticated: false,
     });
 
-    return store;
+    return {
+        subscribe, update, set,
+
+        isSignedIn: () => update(state => ({
+            ...state,
+            isAuthenticated: true,
+        })),
+
+        isSignedOut: () => update(state => ({
+            ...state,
+            isAuthenticated: false,
+        })),
+    };
 }
 
 const defaultStore = createDefaultStore();
