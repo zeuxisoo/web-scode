@@ -8,6 +8,8 @@ const routes = {
     '/'              : Home,
     '/register'      : Register,
     '/login'         : Login,
+    '/article'       : ArticleCreate,
+    '/article/*'     : ArticleCreate,
     '/article/create': ArticleCreate,
     '*'              : NotFound,
 };
