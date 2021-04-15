@@ -1,6 +1,6 @@
 <script>
 import Router, { push } from 'svelte-spa-router';
-import { createRoutes } from './routes';
+import routes from './routes';
 import { createDefaultContext, useDefaultContext } from './context/default.js';
 import gate from './utils/gate';
 import notifier from './utils/notifier';
@@ -10,7 +10,6 @@ createDefaultContext();
 
 // Get the default context
 const defaultContext = useDefaultContext();
-const routes = createRoutes();
 
 // Try to activate authenticated status when token is exists
 gate.reactivate(defaultContext);

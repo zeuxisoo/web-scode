@@ -7,37 +7,33 @@ import ArticleCreate from './views/article/Create.svelte';
 import NotFound from './views/NotFound.svelte';
 import gate from './utils/gate';
 
-function createRoutes() {
-    const ArticleCreateWrap = wrap({
-        component : ArticleCreate,
-        conditions: [
-            async () => {
-                const user = await gate.fetchUserProfile();
 
-                if (user === null) {
-                    push('/');
+const ArticleCreateWrap = wrap({
+    component : ArticleCreate,
+    conditions: [
+        async () => {
+            const user = await gate.fetchUserProfile();
 
-                    return false;
-                }
+            if (user === null) {
+                push('/');
 
-                return true;
+                return false;
             }
-        ]
-    });
 
-    const routes = {
-        '/'              : Home,
-        '/register'      : Register,
-        '/login'         : Login,
-        '/article'       : ArticleCreateWrap,
-        '/article/*'     : ArticleCreateWrap,
-        '/article/create': ArticleCreateWrap,
-        '*'              : NotFound,
-    };
+            return true;
+        }
+    ]
+});
 
-    return routes;
-}
+const routes = {
+    '/'              : Home,
+    '/register'      : Register,
+    '/login'         : Login,
+    '/article'       : ArticleCreateWrap,
+    '/article/*'     : ArticleCreateWrap,
+    '/article/create': ArticleCreateWrap,
+    '*'              : NotFound,
+};
 
-export {
-    createRoutes,
-}
+
+export default routes;
