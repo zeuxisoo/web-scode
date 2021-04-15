@@ -1,3 +1,24 @@
+<script>
+import { onMount } from 'svelte';
+import { articleApi } from '../api';
+import { formatDate } from '../utils';
+import notifier from '../utils/notifier';
+
+let articles = [];
+
+onMount(async () => {
+    const response = await articleApi.list();
+    const body     = response.data;
+
+    if (!body.ok) {
+        notifier.error('Cannot fetch article list');
+    }else{
+        articles = body.data;
+    }
+});
+</script>
+
+
 <style lang="postcss">
 .title {
     font-size: 24px;
@@ -16,16 +37,24 @@
 }
 </style>
 
-<div class="articles py-1 mb-2">
-    <div class="card">
-        <div class="card-body">
-            <div class="title">Title</div>
-            <div class="datetime">2021-04-09 16:24 @ Author</div>
-            <div class="content">
-                Content
+<div class="articles py-1">
+    {#each articles as article}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="title">{article.title}</div>
+                <div class="datetime">{formatDate(article.created_at)}</div>
+                <div class="content">
+                    {article.content}
+                </div>
             </div>
         </div>
-    </div>
+    {:else}
+        <div class="card mb-2">
+            <div class="card-bdoy">
+                Loading ...
+            </div>
+        </div>
+    {/each}
 </div>
 <div class="pagination py-1 mb-2">
     <div class="container-fluid g-0">

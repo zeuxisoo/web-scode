@@ -13,3 +13,16 @@ export function trimData(data, fields) {
 
     return data;
 }
+
+export function formatDate(date) {
+    const now = new Date(date);
+
+    const year    = now.getFullYear();
+    const month   = now.getMonth() + 1;
+    const day     = now.getDay();
+    const hours   = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
