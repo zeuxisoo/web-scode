@@ -1,31 +1,26 @@
 import { push } from 'svelte-spa-router';
 import { wrap } from 'svelte-spa-router/wrap';
-import { useDefaultContext } from './context/default';
 import Home from './views/Home.svelte';
 import Register from './views/Register.svelte';
 import Login from './views/Login.svelte';
 import ArticleCreate from './views/article/Create.svelte';
 import NotFound from './views/NotFound.svelte';
+import gate from './utils/gate';
 
 function createRoutes() {
-    const defaultContext = useDefaultContext();
-
-    let isAuthenticated = false;
-
-    defaultContext.subscribe(state => {
-        isAuthenticated = state.isAuthenticated;
-        console.log(`changed: ${isAuthenticated}`);
-    })
-
     const ArticleCreateWrap = wrap({
-        component: ArticleCreate,
+        component : ArticleCreate,
         conditions: [
-            detail => {
-                if (!isAuthenticated) {
+            async () => {
+                const user = await gate.fetchUserProfile();
+
+                if (user === null) {
                     push('/');
+
+                    return false;
                 }
 
-                return isAuthenticated;
+                return true;
             }
         ]
     });
