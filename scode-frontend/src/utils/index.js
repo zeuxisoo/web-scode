@@ -1,4 +1,5 @@
 import { trim, includes } from 'lodash';
+import { format, parseISO } from 'date-fns';
 
 export function trimData(data, fields) {
     // Find out which field should be trim
@@ -15,14 +16,5 @@ export function trimData(data, fields) {
 }
 
 export function formatDate(date) {
-    const now = new Date(date);
-
-    const year    = now.getFullYear();
-    const month   = now.getMonth() + 1;
-    const day     = now.getDay();
-    const hours   = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return format(parseISO(date), 'yyyy-MM-dd HH:mm:ss');
 }
