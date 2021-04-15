@@ -7,9 +7,8 @@ import ArticleCreate from './views/article/Create.svelte';
 import NotFound from './views/NotFound.svelte';
 import gate from './utils/gate';
 
-
-const ArticleCreateWrap = wrap({
-    component : ArticleCreate,
+const protectedView = viewComponent => (wrap({
+    component : viewComponent,
     conditions: [
         async () => {
             const user = await gate.fetchUserProfile();
@@ -23,17 +22,16 @@ const ArticleCreateWrap = wrap({
             return true;
         }
     ]
-});
+}));
 
 const routes = {
     '/'              : Home,
     '/register'      : Register,
     '/login'         : Login,
-    '/article'       : ArticleCreateWrap,
-    '/article/*'     : ArticleCreateWrap,
-    '/article/create': ArticleCreateWrap,
+    '/article'       : protectedView(ArticleCreate),
+    '/article/*'     : protectedView(ArticleCreate),
+    '/article/create': protectedView(ArticleCreate),
     '*'              : NotFound,
 };
-
 
 export default routes;
