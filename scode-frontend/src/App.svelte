@@ -62,7 +62,7 @@ body {
                         <a class="p-2 link-secondary" href="#/register">Register</a>
                         <a class="p-2 link-secondary" href="#/login">Login</a>
                     {:else}
-                        <a class="p-2 link-secondary" href="#/article/create">Create</a>
+                        <a class="p-2 link-success" href="#/article/create">Create</a>
                         <div class="p-2 link-secondary">
                             {$defaultContext.user.username}
                             ▪
