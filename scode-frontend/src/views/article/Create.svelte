@@ -42,6 +42,11 @@ const handlePublish = async () => {
         }
     }
 }
+
+// fix the was created with unknown prop 'params'
+export let params;
+
+params = {};
 </script>
 
 <div id="article article-create">

@@ -1,5 +1,5 @@
 <script>
-import Router from 'svelte-spa-router';
+import Router, { push } from 'svelte-spa-router';
 import { createRoutes } from './routes';
 import { createDefaultContext, useDefaultContext } from './context/default.js';
 import gate from './utils/gate';
@@ -18,6 +18,8 @@ gate.reactivate(defaultContext);
 //
 const handleSignOut = () => {
     gate.deactivate(defaultContext);
+
+    push('/');
 
     notifier.ok('Logout success, See you next time :)');
 }

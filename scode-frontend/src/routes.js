@@ -1,4 +1,4 @@
-import { replace } from 'svelte-spa-router';
+import { push } from 'svelte-spa-router';
 import { wrap } from 'svelte-spa-router/wrap';
 import { useDefaultContext } from './context/default';
 import Home from './views/Home.svelte';
@@ -10,22 +10,22 @@ import NotFound from './views/NotFound.svelte';
 function createRoutes() {
     const defaultContext = useDefaultContext();
 
+    let isAuthenticated = false;
+
+    defaultContext.subscribe(state => {
+        isAuthenticated = state.isAuthenticated;
+        console.log(`changed: ${isAuthenticated}`);
+    })
+
     const ArticleCreateWrap = wrap({
         component: ArticleCreate,
         conditions: [
             detail => {
-                return new Promise((resolve, reject) => {
-                    defaultContext.subscribe(state => {
-                        const isAuthenticated = state.isAuthenticated;
+                if (!isAuthenticated) {
+                    push('/');
+                }
 
-                        if (isAuthenticated) {
-                            resolve(true);
-                        }else{
-                            replace('/');
-                            reject(false);
-                        }
-                    });
-                });
+                return isAuthenticated;
             }
         ]
     });
