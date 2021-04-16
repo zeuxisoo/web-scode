@@ -33,7 +33,7 @@ $: fetchArticles(qs.parse($querystring)?.page ?? 0);
     margin-bottom: 2px;
 }
 
-.datetime {
+.detail {
     color: #B1B1B1;
     font-size: 14px;
     margin-bottom: 2px;
@@ -42,6 +42,10 @@ $: fetchArticles(qs.parse($querystring)?.page ?? 0);
 .content {
     margin-top: 10px;
 }
+
+.text-edit {
+    color: #C599F5;
+}
 </style>
 
 <div class="articles py-1">
@@ -49,7 +53,14 @@ $: fetchArticles(qs.parse($querystring)?.page ?? 0);
         <div class="card mb-2">
             <div class="card-body">
                 <div class="title">{article.title}</div>
-                <div class="datetime">{formatDate(article.created_at)}</div>
+                <div class="detail">
+                    <div class="row">
+                        <div class="col-8">{formatDate(article.created_at)}</div>
+                        <div class="col-4 text-end">
+                            <a class="edit text-edit" href="#/article/edit/{article.id}">[Edit]</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="content">
                     {article.content}
                 </div>
