@@ -50,7 +50,7 @@ onMount(async () => {
         </div>
     {:else}
         <div class="card mb-2">
-            <div class="card-bdoy">
+            <div class="card-body">
                 Loading ...
             </div>
         </div>
