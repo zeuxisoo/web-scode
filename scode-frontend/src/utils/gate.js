@@ -1,4 +1,4 @@
-import { isString, isEmpty, isNull } from 'lodash';
+import { isString, isEmpty, isNull, now } from 'lodash';
 import token from './token';
 import { userApi } from '../api';
 import notifier from '../utils/notifier';
@@ -25,7 +25,7 @@ const gate = {
             return;
         }
 
-        if (new Date().getTime() >= authToken.expiredAt) {
+        if (now() >= authToken.expiredAt) {
             return;
         }
 
