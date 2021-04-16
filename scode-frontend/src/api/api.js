@@ -27,8 +27,8 @@ class Api {
         return this.client[method](uri, data);
     }
 
-    get(uri, query) {
-        return this.fetch('get', uri, query);
+    get(uri, params) {
+        return this.fetch('get', uri, { params });
     }
 
     post(uri, data) {
