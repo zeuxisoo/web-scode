@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/api/user/create").permitAll()
                 .antMatchers("/api/auth/signin").permitAll()
+                .antMatchers("/api/article/list").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
