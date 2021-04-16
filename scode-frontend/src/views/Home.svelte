@@ -1,5 +1,7 @@
 <script>
 import { onMount } from 'svelte';
+import { querystring } from 'svelte-spa-router';
+import qs from 'qs';
 import { articleApi } from '../api';
 import { formatDate } from '../utils';
 import notifier from '../utils/notifier';
@@ -20,12 +22,14 @@ const fetchArticles = async page => {
     }
 }
 
-const handleFetchArticles = e => {
-    fetchArticles(e.detail.page);
-}
+// Subscribe query string change event and fetch related article by page
+querystring.subscribe(value => {
+    fetchArticles(qs.parse(value)?.page ?? 0);
+});
 
 onMount(async () => {
-    fetchArticles(0);
+    // Fetch current page articles when mounted or refreshed
+    fetchArticles(qs.parse($querystring)?.page ?? 0);
 });
 </script>
 
@@ -68,6 +72,6 @@ onMount(async () => {
     {/each}
 
     {#if articles.length > 0}
-        <Pagination data={meta.pagination} on:fetchArticles={handleFetchArticles} />
+        <Pagination data={meta.pagination} />
     {/if}
 </div>
