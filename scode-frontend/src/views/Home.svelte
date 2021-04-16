@@ -22,17 +22,9 @@ const fetchArticles = async page => {
     }
 }
 
-// Subscribe query string change event and fetch related article by page
-querystring.subscribe(value => {
-    fetchArticles(qs.parse(value)?.page ?? 0);
-});
-
-onMount(async () => {
-    // Fetch current page articles when mounted or refreshed
-    fetchArticles(qs.parse($querystring)?.page ?? 0);
-});
+// When $querystring changed then fetch articles again by page
+$: fetchArticles(qs.parse($querystring)?.page ?? 0);
 </script>
-
 
 <style lang="postcss">
 .title {
