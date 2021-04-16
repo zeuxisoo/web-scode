@@ -3,18 +3,29 @@ import { onMount } from 'svelte';
 import { articleApi } from '../api';
 import { formatDate } from '../utils';
 import notifier from '../utils/notifier';
+import Pagination from '../components/Pagination.svelte';
 
 let articles = [];
+let meta     = {};
 
-onMount(async () => {
-    const response = await articleApi.list();
+const fetchArticles = async page => {
+    const response = await articleApi.list({ page });
     const body     = response.data;
 
     if (!body.ok) {
         notifier.error('Cannot fetch article list');
     }else{
         articles = body.data;
+        meta     = body.meta;
     }
+}
+
+const handleFetchArticles = e => {
+    fetchArticles(e.detail.page);
+}
+
+onMount(async () => {
+    fetchArticles(0);
 });
 </script>
 
@@ -55,16 +66,8 @@ onMount(async () => {
             </div>
         </div>
     {/each}
-</div>
-<div class="pagination py-1 mb-2">
-    <div class="container-fluid g-0">
-        <div class="row">
-            <div class="col-6">
-                <button class="btn btn-primary">Prev</button>
-            </div>
-            <div class="col-6 text-end">
-                <button class="btn btn-primary">Next</button>
-            </div>
-        </div>
-    </div>
+
+    {#if articles.length > 0}
+        <Pagination data={meta.pagination} on:fetchArticles={handleFetchArticles} />
+    {/if}
 </div>
