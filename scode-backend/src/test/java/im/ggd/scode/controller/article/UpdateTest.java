@@ -92,6 +92,7 @@ public class UpdateTest extends BaseTestCase {
             .andExpect(jsonPath("$.data.id").value(1))
             .andExpect(jsonPath("$.data.title").value("updateTitle1"))
             .andExpect(jsonPath("$.data.content").value("updateContent1"))
+            .andExpect(jsonPath("$.data.username").value("test"))
             .andExpect(jsonPath("$.data.created_at").exists());
     }
 
@@ -106,6 +107,7 @@ public class UpdateTest extends BaseTestCase {
             .andExpect(jsonPath("$.data.id").value(3))
             .andExpect(jsonPath("$.data.title").value("updateTitle3"))
             .andExpect(jsonPath("$.data.content").value("updateContent3"))
+            .andExpect(jsonPath("$.data.username").value("test"))
             .andExpect(jsonPath("$.data.created_at").exists());
     }
 
@@ -117,6 +119,7 @@ public class UpdateTest extends BaseTestCase {
             .andExpect(jsonPath("$.ok", is(true)))
             .andExpect(jsonPath("$.data.title").value("updateTitle1"))
             .andExpect(jsonPath("$.data.content").value("updateContent1"))
+            .andExpect(jsonPath("$.data.username").value("test"))
             .andExpect(jsonPath("$.data.created_at").exists());
     }
 
@@ -128,6 +131,7 @@ public class UpdateTest extends BaseTestCase {
             .andExpect(jsonPath("$.ok", is(true)))
             .andExpect(jsonPath("$.data.title").value("updateTitle3"))
             .andExpect(jsonPath("$.data.content").value("updateContent3"))
+            .andExpect(jsonPath("$.data.username").value("test"))
             .andExpect(jsonPath("$.data.created_at").exists());
     }
 

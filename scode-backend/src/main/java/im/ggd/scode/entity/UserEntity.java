@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 
@@ -32,6 +33,7 @@ public class UserEntity {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
     @Column(unique = true, nullable = false)
@@ -39,6 +41,9 @@ public class UserEntity {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<RoleEntity> roles;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<ArticleEntity> articles;
 
     @Column(name = "created_at")
     @CreatedDate

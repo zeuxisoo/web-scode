@@ -29,7 +29,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleEntity store(ArticleStoreRequest request) {
         ArticleEntity article = new ArticleEntity();
-        article.setUserId(currentUser.getId());
+        article.setUser(currentUser.getUser());
         article.setTitle(request.getTitle());
         article.setContent(request.getContent());
 

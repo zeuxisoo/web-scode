@@ -89,6 +89,7 @@ public class ShowTest extends BaseTestCase {
             .andExpect(jsonPath("$.ok", is(true)))
             .andExpect(jsonPath("$.data.title").value("title1"))
             .andExpect(jsonPath("$.data.content").value("content1"))
+            .andExpect(jsonPath("$.data.username").value("test"))
             .andExpect(jsonPath("$.data.created_at").exists());
     }
 
@@ -100,6 +101,7 @@ public class ShowTest extends BaseTestCase {
             .andExpect(jsonPath("$.ok", is(true)))
             .andExpect(jsonPath("$.data.title").value("title5"))
             .andExpect(jsonPath("$.data.content").value("content5"))
+            .andExpect(jsonPath("$.data.username").value("test"))
             .andExpect(jsonPath("$.data.created_at").exists());
     }
 

@@ -18,6 +18,7 @@ public class ArticleConverter implements Converter<Object, Map<String, Object>> 
             { "id",         articleModel.getId() },
             { "title",      articleModel.getTitle() },
             { "content",    articleModel.getContent() },
+            { "username",   articleModel.getUser().getUsername() },
             { "created_at", articleModel.getCreatedAt() },
         }).collect(
             Collectors.toMap(
