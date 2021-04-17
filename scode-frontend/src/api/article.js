@@ -14,6 +14,10 @@ class AuthApi extends Api {
         return this.get(`/article/show/${id}`);
     }
 
+    update(id, data) {
+        return this.post(`/article/update/${id}`, data);
+    }
+
 }
 
 export default AuthApi;
