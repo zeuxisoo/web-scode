@@ -10,6 +10,10 @@ class AuthApi extends Api {
         return this.get("/article/list", params);
     }
 
+    show(id) {
+        return this.get(`/article/show/${id}`);
+    }
+
 }
 
 export default AuthApi;

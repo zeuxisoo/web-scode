@@ -33,7 +33,6 @@ const handleSignIn = async () => {
 
             if (!body.ok) {
                 notifier.error(body.message);
-                return;
             }else{
                 const authToken = body.data;
 
