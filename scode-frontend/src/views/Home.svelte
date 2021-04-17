@@ -55,7 +55,11 @@ $: fetchArticles(qs.parse($querystring)?.page ?? 0);
                 <div class="title">{article.title}</div>
                 <div class="detail">
                     <div class="row">
-                        <div class="col-8">{formatDate(article.created_at)}</div>
+                        <div class="col-8">
+                            &#10561; {formatDate(article.created_at)}
+                            ▪
+                            &#64; {article.username}
+                        </div>
                         <div class="col-4 text-end">
                             <a class="edit text-edit" href="#/article/edit/{article.id}">[Edit]</a>
                         </div>
