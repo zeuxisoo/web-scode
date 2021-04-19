@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:mysqldb}:3306/scode
+    username: spring
+    password: springSCode
+  jpa:
+    show-sql: true
+    # https://docs.jboss.org/hibernate/orm/current/javadocs/org/hibernate/dialect/package-summary.html
+    database-platform: org.hibernate.dialect.MySQL57Dialect
+    hibernate:
+      ddl-auto: update
+
+security:
+  jwt:
+    token:
+      secret-key: thisIsASecretKeyString
+      expired-second: 604800  # 7 days
+      refresh-second: 1209600 # 14 days
+
+app:
+  article:
+    list:
+      per-page: 8

@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+    backend:
+        container_name: scode_backend
+        build:
+            context: .
+            dockerfile: ./docker/backend/Dockerfile
+        restart: always
+        expose:
+            - "8080"
+        volumes:
+            - "./docker/backend/config/application-prod.yml:/app/config/application-prod.yml"
+        depends_on:
+            - mysqldb
+
+    mysqldb:
+        container_name: scode_mysql
+        image: mysql:5.7
+        restart: always
+        ports:
+            - "3306:3306"
+        volumes:
+            - "./docker/mysqldb/data:/var/lib/mysql"
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        command: [
+            'mysqld',
+            '--character-set-server=utf8mb4',
+            '--collation-server=utf8mb4_unicode_520_ci'
+        ]
+
+    caddy:
+        container_name: scode_caddy
+        image: caddy:2.3.0
+        restart: always
+        ports:
+            - ${HTTP_PORT}:${HTTP_PORT}
+            - ${HTTPS_PORT}:${HTTPS_PORT}
+        volumes:
+            - "./docker/caddy/data:/data"
+            - "./docker/caddy/config:/config"
+            - "./docker/caddy/sites:/etc/caddy/sites"
+            - "./docker/caddy/Caddyfile:/etc/caddy/Caddyfile"
+        depends_on:
+            - backend
