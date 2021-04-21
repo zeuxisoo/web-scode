@@ -3,6 +3,11 @@
 }
 
 http://localhost:2015 {
+    root * /app
+    file_server {
+        index index.html
+    }
+
     reverse_proxy /api/* backend:8080 {
 
     }

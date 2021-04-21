@@ -8,7 +8,7 @@ COPY --chown=gradle:gradle $SCODE_BACKEND/src /home/gradle/src
 COPY --chown=gradle:gradle $SCODE_BACKEND/build.gradle /home/gradle/
 COPY --chown=gradle:gradle $SCODE_BACKEND/settings.gradle /home/gradle/
 
-WORKDIR /home/gradle
+WORKDIR $GRADLE_HOME
 
 RUN gradle clean build
 

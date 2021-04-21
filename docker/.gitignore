@@ -1,4 +1,4 @@
-/caddy/config
-/caddy/data
-/caddy/Caddyfile
+/frontend/config
+/frontend/data
+/frontend/Caddyfile
 /mysqldb/data
