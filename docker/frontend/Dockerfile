@@ -8,7 +8,7 @@ COPY $SCODE_FRONTEND $NODE_HOME/
 
 WORKDIR $NODE_HOME
 
-RUN yarn install
+RUN yarn config delete proxy && yarn install
 RUN yarn run build
 
 # Step 2
