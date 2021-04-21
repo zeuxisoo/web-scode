@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "./docker"
+		},
+		{
+			"path": "./scode-backend"
+		},
+		{
+			"path": "./scode-frontend"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "interactive"
+	}
+}
