@@ -14,7 +14,7 @@ import im.ggd.scode.security.model.JwtTokenModel;
 import im.ggd.scode.service.AuthService;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class AuthServiceImpl implements AuthService {
 
     @Autowired

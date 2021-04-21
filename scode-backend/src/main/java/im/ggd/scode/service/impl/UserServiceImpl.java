@@ -11,7 +11,7 @@ import im.ggd.scode.entity.UserEntity;
 import im.ggd.scode.service.UserService;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class UserServiceImpl implements UserService {
 
     @Autowired
