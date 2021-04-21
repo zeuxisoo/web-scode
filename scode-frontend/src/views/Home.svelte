@@ -7,10 +7,13 @@ import { formatDate } from '../utils';
 import notifier from '../utils/notifier';
 import Pagination from '../components/Pagination.svelte';
 
-let articles = [];
-let meta     = {};
+let isLoading = false;
+let articles  = [];
+let meta      = {};
 
 const fetchArticles = async page => {
+    isLoading = true;
+
     const response = await articleApi.list({ page });
     const body     = response.data;
 
@@ -20,6 +23,8 @@ const fetchArticles = async page => {
         articles = body.data;
         meta     = body.meta;
     }
+
+    isLoading = false;
 }
 
 // When $querystring changed then fetch articles again by page
@@ -49,36 +54,44 @@ $: fetchArticles(qs.parse($querystring)?.page ?? 0);
 </style>
 
 <div class="articles py-1">
-    {#each articles as article}
-        <div class="card mb-2">
-            <div class="card-body">
-                <div class="title">{article.title}</div>
-                <div class="detail">
-                    <div class="row">
-                        <div class="col-8">
-                            &#10561; {formatDate(article.created_at)}
-                            ▪
-                            &#64; {article.username}
-                        </div>
-                        <div class="col-4 text-end">
-                            <a class="edit text-edit" href="#/article/edit/{article.id}">[Edit]</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    {article.content}
-                </div>
-            </div>
-        </div>
-    {:else}
+    {#if isLoading}
         <div class="card mb-2">
             <div class="card-body">
                 Loading ...
             </div>
         </div>
-    {/each}
+    {:else}
+        {#each articles as article}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="title">{article.title}</div>
+                    <div class="detail">
+                        <div class="row">
+                            <div class="col-8">
+                                &#10561; {formatDate(article.created_at)}
+                                ▪
+                                &#64; {article.username}
+                            </div>
+                            <div class="col-4 text-end">
+                                <a class="edit text-edit" href="#/article/edit/{article.id}">[Edit]</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        {article.content}
+                    </div>
+                </div>
+            </div>
+        {:else}
+            <div class="card mb-2">
+                <div class="card-body">
+                    No article :(
+                </div>
+            </div>
+        {/each}
 
-    {#if articles.length > 0}
-        <Pagination data={meta.pagination} />
+        {#if articles.length > 0}
+            <Pagination data={meta.pagination} />
+        {/if}
     {/if}
 </div>
