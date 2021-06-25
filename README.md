@@ -1,6 +1,6 @@
 # Scode
 
-A simple CRUD application for testing powered by spring boot and svelte
+An application written with spring boot and svelte for testing purposes
 
 ## Develop
 
