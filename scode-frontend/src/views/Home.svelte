@@ -1,11 +1,13 @@
 <script>
-import { onMount } from 'svelte';
 import { querystring } from 'svelte-spa-router';
 import qs from 'qs';
+import { useDefaultContext } from '../context/default';
 import { articleApi } from '../api';
 import { formatDate } from '../utils';
 import notifier from '../utils/notifier';
 import Pagination from '../components/Pagination.svelte';
+
+const defaultContext = useDefaultContext();
 
 let isLoading = false;
 let articles  = [];
@@ -73,7 +75,9 @@ $: fetchArticles(qs.parse($querystring)?.page ?? 0);
                                 &#64; {article.username}
                             </div>
                             <div class="col-4 text-end">
-                                <a class="edit text-edit" href="#/article/edit/{article.id}">[Edit]</a>
+                                {#if $defaultContext.isAuthenticated}
+                                    <a class="edit text-edit" href="#/article/edit/{article.id}">[Edit]</a>
+                                {/if}
                             </div>
                         </div>
                     </div>
